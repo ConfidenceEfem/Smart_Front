@@ -2,22 +2,22 @@ import axios from 'axios';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
-import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import { AiFillCamera } from 'react-icons/ai';
 import { AuthContext } from '../AuthState/AuthProvider';
 import { useNavigate } from 'react-router';
+import DashHeader from '../maindash/DashHeader';
 
-const DashEditProfile = () => {
+const DevEditProfile = () => {
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const [name, setName] = React.useState(currentUser?.name || '');
-  const [image, setImage] = React.useState(currentUser?.image || '');
+  const [name, setName] = React.useState(currentUser?.data?.name || '');
+  const [image, setImage] = React.useState(currentUser?.data?.image || '');
   const [imageLink, setImageLink] = React.useState('');
-  const [status, setStatus] = React.useState(currentUser?.status || '');
+  const [stack, setStack] = React.useState(currentUser?.data?.stack || '');
   const [experience, setExperience] = React.useState(
-    currentUser?.experience || ''
+    currentUser?.data?.experience || ''
   );
   const [bio, setBio] = React.useState(currentUser?.bio || '');
 
@@ -29,7 +29,7 @@ const DashEditProfile = () => {
   };
 
   const onSubmitForm = async () => {
-    console.log(name, status, experience, bio);
+    console.log(name, stack, experience, bio);
 
     try {
       const config = {
@@ -41,10 +41,10 @@ const DashEditProfile = () => {
       const formData = new FormData();
 
       formData.append('name', name);
+      formData.append('stack', stack);
       formData.append('image', imageLink);
-      formData.append('status', status);
-      formData.append('bio', bio);
       formData.append('experience', experience);
+      formData.append('bio', bio);
 
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
@@ -57,11 +57,11 @@ const DashEditProfile = () => {
       if (res) {
         Swal.fire({
           icon: 'success',
-          title: 'User Profile Updated Successfully',
+          title: 'Developer Profile Updated Successfully',
           timer: 2500,
           showConfirmButton: true,
         }).then(() => {
-          navigate(`/dash/overview`);
+          navigate(`/dev/main`);
         });
       }
       console.log(res.data?.data);
@@ -111,12 +111,12 @@ const DashEditProfile = () => {
               </InputHolder>
 
               <InputHolder>
-                <Label>Status</Label>
+                <Label>stack</Label>
                 <Input
-                  placeholder="Status"
-                  value={status}
+                  placeholder="Frontend Engineerer"
+                  value={stack}
                   onChange={(e) => {
-                    setStatus(e.target.value);
+                    setStack(e.target.value);
                   }}
                 />
               </InputHolder>
@@ -155,7 +155,7 @@ const DashEditProfile = () => {
   );
 };
 
-export default DashEditProfile;
+export default DevEditProfile;
 
 const TextArea = styled.textarea`
   padding: 10px;

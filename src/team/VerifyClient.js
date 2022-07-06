@@ -23,7 +23,7 @@ const VerifyClient = () => {
   const updateUser = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    await axios.post(`${mainUrl}/register/client/${otp}/${id}`);
+    await axios.post(`${url}/register/client/${otp}/${id}`);
     Swal.fire({
       position: 'center',
       icon: 'success',

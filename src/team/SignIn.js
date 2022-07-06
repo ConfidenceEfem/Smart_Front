@@ -36,8 +36,8 @@ const SignIn = () => {
       const mainUrl = 'https://smart-2022.herokuapp.com';
       const res = await axios.post(`${url}/loginverify`, data);
 
-      localStorage.setItem('smartuser', JSON.stringify(res.data.data.data));
-      console.log(res.data.data.data);
+      localStorage.setItem('smartuser', JSON.stringify(res?.data?.data));
+      console.log(res?.data?.data);
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -45,7 +45,13 @@ const SignIn = () => {
         showConfirmButton: false,
         timer: 2500,
       }).then(() => {
-        navigate('/dash/overview');
+        if (res?.data?.data?.data?.isClient) {
+          navigate('/dash/overview');
+        } else if (res?.data?.data?.data?.isDeveloper) {
+          navigate('/dev/main');
+        } else {
+          navigate('/');
+        }
       });
     } catch (error) {
       Swal.fire({

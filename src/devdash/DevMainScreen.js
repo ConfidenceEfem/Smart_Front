@@ -1,33 +1,60 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import DashHeader from './DashHeader';
-import DashNav from './DashNav';
 import icon from '../dash/images/user.png';
 import icon1 from '../dash/images/suitcase.png';
 import icon2 from '../dash/images/hired.png';
 import img from '../dash/images/avatar.png';
 import ClientDetailComp from '../team/ClientDetail';
+import DashHeader from '../maindash/DashHeader';
+import DevNav from './DashNav';
+import moment from 'moment';
 import { AuthContext } from '../AuthState/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const MainDashScreen = () => {
+const DevMainScreen = () => {
   // console.log(user);
-  const { see, currentUser } = useContext(AuthContext);
+  const { currentUser, see } = useContext(AuthContext);
+  console.log(currentUser);
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${currentUser?._id}`);
+        console.log(res);
+        setData(res);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to get Data',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Container>
       <DashHeader />
       <NavAndPageHolder>
-        <DashNav />
+        <DevNav />
         <DashComp>
           <DashWrapper>
             <FirstCardHolder>
               <Card1>
                 <CardWrapper>
                   <TextContents>
-                    <TotalText>Complete Profile</TotalText>
+                    <TotalText>Complete {see}</TotalText>
                     <Amoutn>50%</Amoutn>
                     <Join>
-                      <span>Joined: </span> 4days
+                      <span>Joined: </span>{' '}
+                      {moment(currentUser?.data?.createdAt).fromNow()}
                     </Join>
                   </TextContents>
 
@@ -37,7 +64,7 @@ const MainDashScreen = () => {
               <Card1>
                 <CardWrapper>
                   <TextContents>
-                    <TotalText>Total Jobs Posted</TotalText>
+                    <TotalText>Total Jobs Applied</TotalText>
                     <Amoutn>10</Amoutn>
                     <Join>
                       <span>Recent:</span>
@@ -50,7 +77,7 @@ const MainDashScreen = () => {
               <Card1>
                 <CardWrapper>
                   <TextContents>
-                    <TotalText>Total Applied Jobs</TotalText>
+                    <TotalText>Total Client Hired</TotalText>
                     <Amoutn>5</Amoutn>
                     <Join>
                       <span>Recent:</span>2days ago
@@ -98,7 +125,7 @@ const MainDashScreen = () => {
   );
 };
 
-export default MainDashScreen;
+export default DevMainScreen;
 
 const SecondTitle = styled.div``;
 
@@ -278,7 +305,7 @@ const Card1 = styled.div`
   width: 300px;
   height: 200px;
   background: white;
-  margin: 0 15px;
+  margin: 15px;
   display: flex;
   justify-content: center;
   align-items: center;

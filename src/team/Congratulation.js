@@ -21,7 +21,7 @@ const Congratulation = () => {
   const updateUser = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    await axios.post(`${mainUrl}/verify/${otp}/${id}`);
+    await axios.post(`${url}/verify/${otp}/${id}`);
     Swal.fire({
       position: 'center',
       icon: 'success',

@@ -34,6 +34,10 @@ import AllPostedJob from './maindash/AllPostedJob';
 import DashHireDevelopers from './maindash/DashHireDeveloper';
 import Profile from './team/Profile';
 import AllHiredDeveloper from './maindash/AllHiredDeveloper';
+import DevMainScreen from './devdash/DevMainScreen';
+import DevEditProfile from './devdash/DevEditProfile';
+import DevAppliedJob from './devdash/DevAppliedJob';
+import DevHiring from './devdash/DevHiring';
 
 const App = () => {
   return (
@@ -67,6 +71,10 @@ const App = () => {
           <Route path="/dash/form/:id" element={<DashHireDevelopers />} />
           <Route path="/myprofile/:id" element={<Profile />} />
           <Route path="/dash/hired" element={<AllHiredDeveloper />} />
+          <Route path="/dev/main" element={<DevMainScreen />} />
+          <Route path="/dev/editprofile" element={<DevEditProfile />} />
+          <Route path="/dev/appliedjob" element={<DevAppliedJob />} />
+          <Route path="/dev/hired" element={<DevHiring />} />
         </Routes>
       </Router>
     </div>

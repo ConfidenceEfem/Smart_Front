@@ -41,7 +41,7 @@ const SignIn = () => {
     const mainUrl = 'https://smart-2022.herokuapp.com';
 
     try {
-      const res = await axios.post(`${mainUrl}/register`, {
+      const res = await axios.post(`${url}/register`, {
         email: email,
         password: confirm,
         name,
@@ -71,7 +71,7 @@ const SignIn = () => {
     const mainUrl = 'https://smart-2022.herokuapp.com';
 
     try {
-      const res = await axios.post(`${mainUrl}/register/client`, {
+      const res = await axios.post(`${url}/register/client`, {
         email: email,
         password: confirm,
         name,

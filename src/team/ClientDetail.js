@@ -8,7 +8,7 @@ const ClientDetailComp = ({ id }) => {
   const fetchData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${mainUrl}/user/${id}`);
+    const res = await axios.get(`${url}/user/${id}`);
     setJobData(res.data.data);
   };
 

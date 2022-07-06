@@ -1,0 +1,55 @@
+import axios from 'axios';
+import React from 'react';
+import styled from 'styled-components';
+import Swal from 'sweetalert2';
+
+const JobClientProfile = ({ dev }) => {
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${dev}`);
+        console.log(res?.data?.data);
+        setData(res?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <AvatarAndName>
+      <Circle>CE</Circle>
+      <DeveloperName>{data.name}</DeveloperName>
+    </AvatarAndName>
+  );
+};
+
+export default JobClientProfile;
+
+const Circle = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+`;
+
+const DeveloperName = styled.div`
+  font-weight: 600;
+
+  display: flex;
+  /* flex: 1; */
+`;
+
+const AvatarAndName = styled.div`
+  display: flex;
+  align-items: center;
+`;
