@@ -34,7 +34,7 @@ const SignIn = () => {
     try {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
-      const res = await axios.post(`${mainUrl}/loginverify`, data);
+      const res = await axios.post(`${url}/loginverify`, data);
 
       localStorage.setItem('smartuser', JSON.stringify(res.data.data.data));
       console.log(res.data.data.data);

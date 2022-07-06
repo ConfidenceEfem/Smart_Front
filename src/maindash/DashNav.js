@@ -43,6 +43,13 @@ const DashNav = () => {
             </IconAndText>
             <Line to={`/dash/editprofile`}></Line>
           </NavAndIcon>
+          <NavAndIcon to={`/dash/postedjob`}>
+            <IconAndText>
+              <BsFillBriefcaseFill />
+              <Text>View All My Jobs</Text>
+            </IconAndText>
+            <Line to={`/dash/postedjob`}></Line>
+          </NavAndIcon>
           <NavAndIcon to={`/dash/appliedjob`}>
             <IconAndText>
               <AiTwotoneFile />
@@ -50,12 +57,12 @@ const DashNav = () => {
             </IconAndText>
             <Line to={`/dash/appliedjob`}></Line>
           </NavAndIcon>
-          <NavAndIcon to={`/dash/postedjob`}>
+          <NavAndIcon to={`/dash/hired`}>
             <IconAndText>
-              <BsFillBriefcaseFill />
-              <Text>View All My Jobs</Text>
+              <AiTwotoneFile />
+              <Text>View All Hired Developers</Text>
             </IconAndText>
-            <Line to={`/dash/postedjob`}></Line>
+            <Line to={`/dash/hired`}></Line>
           </NavAndIcon>
         </NavHolder>
         <Image src={img} />

@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import ClientDetailComp from '../team/ClientDetail';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import img from '../dash/images/avatar.png';
+import { AuthContext } from '../AuthState/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const AllPostedJob = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${currentUser?._id}`);
+        // console.log(res?.data?.data.jobs);
+        setData(res?.data?.data.jobs);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to get Data',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(data);
+
   return (
     <Container>
       <DashHeader />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
@@ -8,8 +8,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { AuthContext } from '../AuthState/AuthProvider';
 
 const PostJob = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+
   const navigate = useNavigate();
 
   const schema = yup.object().shape({
@@ -30,13 +34,22 @@ const PostJob = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const submit = handleSubmit(async (data) => {
-    console.log(data);
     const { jobTitle, skillset, email, salary, experience, deadline, detail } =
       data;
 
     try {
-      const url = '';
-      const res = await axios.post(`${url}/`);
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      const res = await axios.post(`${url}/jobpost/${currentUser?._id}`, {
+        jobTitle,
+        contactemail: email,
+        description: detail,
+        skillSet: skillset,
+        cost: salary,
+        experience,
+        deadline,
+      });
+      console.log(res);
       if (res) {
         Swal.fire({
           icon: 'success',

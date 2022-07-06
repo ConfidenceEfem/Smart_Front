@@ -32,6 +32,8 @@ import DashEditProfile from './maindash/DashEditProfile';
 import AllAppliedJob from './maindash/AllAppliedJob';
 import AllPostedJob from './maindash/AllPostedJob';
 import DashHireDevelopers from './maindash/DashHireDeveloper';
+import Profile from './team/Profile';
+import AllHiredDeveloper from './maindash/AllHiredDeveloper';
 
 const App = () => {
   return (
@@ -45,7 +47,7 @@ const App = () => {
           <Route exact path="/signup" element={<SignUp />} />
           <Route path="/projects" element={<DashMainProject />} />
           <Route path="/stack" element={<Step1job />} />
-          <Route path="/send" element={<Stack />} />
+          {/* <Route path="/send" element={<Stack />} /> */}
           <Route path="/talent" element={<Userr />} />
           <Route path="/employers" element={<EmployersPage />} />
           <Route path="/jobs" element={<FindJobs />} />
@@ -63,6 +65,8 @@ const App = () => {
           <Route path="/dash/appliedjob" element={<AllAppliedJob />} />
           <Route path="/dash/postedjob" element={<AllPostedJob />} />
           <Route path="/dash/form/:id" element={<DashHireDevelopers />} />
+          <Route path="/myprofile/:id" element={<Profile />} />
+          <Route path="/dash/hired" element={<AllHiredDeveloper />} />
         </Routes>
       </Router>
     </div>

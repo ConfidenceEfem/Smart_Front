@@ -1,19 +1,25 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import { AiFillCamera } from 'react-icons/ai';
+import { AuthContext } from '../AuthState/AuthProvider';
+import { useNavigate } from 'react-router';
 
 const DashEditProfile = () => {
-  const [FirstName, setFirstName] = React.useState('');
-  const [image, setImage] = React.useState('');
+  const { currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const [name, setName] = React.useState(currentUser?.name || '');
+  const [image, setImage] = React.useState(currentUser?.image || '');
   const [imageLink, setImageLink] = React.useState('');
-  const [LastName, setLastName] = React.useState('');
-  const [City, setCity] = React.useState('');
-  const [State, setState] = React.useState('');
-  const [Phone, setPone] = React.useState('');
+  const [status, setStatus] = React.useState(currentUser?.status || '');
+  const [experience, setExperience] = React.useState(
+    currentUser?.experience || ''
+  );
+  const [bio, setBio] = React.useState(currentUser?.bio || '');
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -23,46 +29,49 @@ const DashEditProfile = () => {
   };
 
   const onSubmitForm = async () => {
-    console.log(FirstName, LastName, City, State, Phone);
+    console.log(name, status, experience, bio);
 
-    // try {
+    try {
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      };
 
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data',
-    //   },
-    // };
+      const formData = new FormData();
 
-    const formData = new FormData();
+      formData.append('firstname', name);
+      formData.append('image', imageLink);
 
-    formData.append('firstname', FirstName);
-    formData.append('image', imageLink);
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
 
-    // const url = 'http://localhost:2023';
-
-    // const res = await axios.put(`${url}/`, formData, config);
-    //   if (res) {
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'User Profile Updated Successfully',
-    //       timer: 2500,
-    //       showConfirmButton: true,
-    //     });
-    //   }
-    //   console.log(res.data);
-    //   localStorage.setItem(
-    //     'smartuser',
-    //     JSON.stringify(res.data)
-    //   );
-    // } catch (error) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Failed to edit profile',
-    //     text: error,
-    //     timer: 2500,
-    //     showConfirmButton: true,
-    //   });
-    // }
+      const res = await axios.put(
+        `${url}/user/${currentUser?._id}`,
+        formData,
+        config
+      );
+      if (res) {
+        Swal.fire({
+          icon: 'success',
+          title: 'User Profile Updated Successfully',
+          timer: 2500,
+          showConfirmButton: true,
+        }).then(() => {
+          navigate(`/dash/overview`);
+        });
+      }
+      console.log(res.data);
+      // localStorage.setItem('smartuser', JSON.stringify(res.data));
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to edit profile',
+        text: error,
+        timer: 2500,
+        showConfirmButton: true,
+      });
+    }
   };
   return (
     <Container>
@@ -91,49 +100,40 @@ const DashEditProfile = () => {
                 <Label>First Name</Label>
                 <Input
                   placeholder="John "
-                  value={FirstName}
+                  value={name}
                   onChange={(e) => {
-                    setFirstName(e.target.value);
+                    setName(e.target.value);
+                  }}
+                />
+              </InputHolder>
+
+              <InputHolder>
+                <Label>Status</Label>
+                <Input
+                  placeholder="Status"
+                  value={status}
+                  onChange={(e) => {
+                    setStatus(e.target.value);
                   }}
                 />
               </InputHolder>
               <InputHolder>
-                <Label>Last Name</Label>
+                <Label>Experience</Label>
                 <Input
-                  placeholder="Doe"
-                  value={LastName}
+                  placeholder="2 years"
+                  value={experience}
                   onChange={(e) => {
-                    setLastName(e.target.value);
+                    setExperience(e.target.value);
                   }}
                 />
               </InputHolder>
               <InputHolder>
-                <Label>City</Label>
-                <Input
-                  placeholder="Victoria Island"
-                  value={City}
+                <Label>Bio</Label>
+                <TextArea
+                  placeholder="Short bio"
+                  value={bio}
                   onChange={(e) => {
-                    setCity(e.target.value);
-                  }}
-                />
-              </InputHolder>
-              <InputHolder>
-                <Label>State</Label>
-                <Input
-                  placeholder="Lagos"
-                  value={State}
-                  onChange={(e) => {
-                    setState(e.target.value);
-                  }}
-                />
-              </InputHolder>
-              <InputHolder>
-                <Label>Phone</Label>
-                <Input
-                  placeholder="+234 5509 4338"
-                  value={Phone}
-                  onChange={(e) => {
-                    setPone(e.target.value);
+                    setBio(e.target.value);
                   }}
                 />
               </InputHolder>
@@ -154,9 +154,27 @@ const DashEditProfile = () => {
 
 export default DashEditProfile;
 
+const TextArea = styled.textarea`
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 95%;
+  height: 50px;
+  border: none;
+  outline: none;
+  background: rgb(0, 0, 255, 0.7);
+  color: white;
+  ::placeholder {
+    color: white;
+  }
+  :focus {
+    border: 2px solid blue;
+  }
+`;
 const ImageCont = styled.img`
   width: 80px;
   height: 80px;
+  object-fit: cover;
   border-radius: 50%;
   /* background: red; */
 `;

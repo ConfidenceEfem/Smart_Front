@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import * as yup from 'yup';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Swal from 'sweetalert2';
@@ -12,6 +12,8 @@ const Form = () => {
   const { id } = useParams();
   const { currentUser, see } = React.useContext(AuthContext);
   console.log(currentUser);
+
+  const navigate = useNavigate();
   console.log(see);
   const schema = yup.object().shape({
     name: yup.string().required('Input your detail'),
@@ -31,23 +33,32 @@ const Form = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const submit = handleSubmit(async (data) => {
+    const { name, email, job, salary, hours, description } = data;
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
     try {
-      const res = await axios.post(`${mainUrl}/hire/${currentUser?._id}/${id}`);
+      const res = await axios.post(`${url}/hire/${currentUser?._id}/${id}`, {
+        clientName: name,
+        email,
+        details: description,
+        salary,
+        jobTitle: job,
+        workingHours: hours,
+      });
       if (res) {
         Swal.fire({
           icon: 'success',
-          title: 'Created Developer Successfully',
+          title: 'Hire Developer Successfully',
           showConfirmButton: false,
           timer: 2500,
+        }).then(() => {
+          navigate(`/dash/hired`);
         });
       }
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Failed to Hire Developer',
-        text: error.response.data.message || error.message,
         showConfirmButton: false,
         timer: 2500,
       });

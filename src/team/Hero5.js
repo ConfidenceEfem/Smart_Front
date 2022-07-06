@@ -10,7 +10,7 @@ const Hero5 = () => {
   const fetchData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${mainUrl}/allusers`);
+    const res = await axios.get(`${url}/allusers`);
     setData(res.data.data);
   };
 
@@ -25,7 +25,7 @@ const Hero5 = () => {
         <ProfileHold>
           {data.map((props, i) =>
             i < 2 && props.isDeveloper ? (
-              <ProfileCard to="/send">
+              <ProfileCard to={`/myprofile/${props._id}`} key={props._id}>
                 <ImgHold>
                   <img src={props.image} alt="loading" />
                 </ImgHold>
