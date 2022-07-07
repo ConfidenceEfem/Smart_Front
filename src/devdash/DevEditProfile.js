@@ -7,6 +7,7 @@ import { AiFillCamera } from 'react-icons/ai';
 import { AuthContext } from '../AuthState/AuthProvider';
 import { useNavigate } from 'react-router';
 import DashHeader from '../maindash/DashHeader';
+import Header from '../team/Header';
 
 const DevEditProfile = () => {
   const { currentUser } = useContext(AuthContext);
@@ -78,7 +79,8 @@ const DevEditProfile = () => {
   };
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

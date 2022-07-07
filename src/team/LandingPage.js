@@ -8,6 +8,7 @@ import Hero3 from './Hero3';
 import Hero5 from './Hero5';
 import Join from './Join';
 import SignUp from './SignUp2';
+import Card from './Card';
 
 const LandingPage = () => {
   return (
@@ -15,7 +16,8 @@ const LandingPage = () => {
       <Header />
       <Hero />
 
-      <Hero2 />
+      {/* <Hero2 /> */}
+      <Card />
       <Hero3 />
       <Hero5 />
       <Join />

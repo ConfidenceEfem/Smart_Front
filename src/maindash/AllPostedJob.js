@@ -7,6 +7,7 @@ import img from '../dash/images/avatar.png';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Header from '../team/Header';
 
 const AllPostedJob = () => {
   const { currentUser } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const AllPostedJob = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?._id}`);
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
         // console.log(res?.data?.data.jobs);
         setData(res?.data?.data.jobs);
       } catch (error) {
@@ -37,7 +38,8 @@ const AllPostedJob = () => {
 
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

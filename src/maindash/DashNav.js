@@ -29,13 +29,13 @@ const DashNav = () => {
             </IconAndText>
             <Line to={`/dash/postjob`}></Line>
           </NavAndIcon>
-          <NavAndIcon to={`/dash/findtalent`}>
+          {/* <NavAndIcon to={`/dash/findtalent`}>
             <IconAndText>
               <AiFillFormatPainter />
               <Text>Find Talent</Text>
             </IconAndText>
             <Line to={`/dash/findtalent`}></Line>
-          </NavAndIcon>
+          </NavAndIcon> */}
           <NavAndIcon to={`/dash/editprofile`}>
             <IconAndText>
               <AiTwotoneEdit />

@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from '../team/Header';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 
 const AllAppliedJob = () => {
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

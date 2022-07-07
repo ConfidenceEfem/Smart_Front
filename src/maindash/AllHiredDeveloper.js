@@ -7,6 +7,7 @@ import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import moment from 'moment';
 import JobDevProfile from './JobDevProfile';
+import Header from '../team/Header';
 
 const AllHiredDeveloper = () => {
   const { currentUser } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const AllHiredDeveloper = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?._id}`);
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
         console.log(res?.data?.data?.hiredDevelopers);
         setData(res?.data?.data?.hiredDevelopers);
       } catch (error) {
@@ -36,7 +37,8 @@ const AllHiredDeveloper = () => {
 
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>
@@ -68,7 +70,7 @@ const AllHiredDeveloper = () => {
                     <PendingButton
                       style={{ backgroundColor: '#3ddabe', color: 'black' }}
                     >
-                      Accepted Offer
+                      Offer Accepted
                     </PendingButton>
                   ) : (
                     <PendingButton

@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
     localStorage.getItem('smartuser')
       ? setCurrentUser(JSON.parse(localStorage.getItem('smartuser')))
       : setCurrentUser({});
-  }, []);
+  }, [currentUser]);
   return (
     <AuthContext.Provider value={{ currentUser, see }}>
       {children}

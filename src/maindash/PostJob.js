@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../AuthState/AuthProvider';
+import Header from '../team/Header';
 
 const PostJob = () => {
   const { currentUser } = useContext(AuthContext);
@@ -40,7 +41,7 @@ const PostJob = () => {
     try {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
-      const res = await axios.post(`${url}/jobpost/${currentUser?._id}`, {
+      const res = await axios.post(`${url}/jobpost/${currentUser?.data?._id}`, {
         jobTitle,
         contactemail: email,
         description: detail,
@@ -74,7 +75,8 @@ const PostJob = () => {
 
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

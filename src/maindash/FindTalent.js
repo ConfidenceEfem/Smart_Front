@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import img from '../dash/images/avatar.png';
+import Header from '../team/Header';
 
 const FindTalent = () => {
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

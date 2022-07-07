@@ -7,10 +7,11 @@ import DashNav from './DashNav';
 import moment from 'moment';
 import DashHeader from '../maindash/DashHeader';
 import JobClientProfile from './JobClientProfile';
+import Header from '../team/Header';
 
 const DevHiring = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   const [data, setData] = React.useState([]);
 
@@ -19,9 +20,9 @@ const DevHiring = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?._id}`);
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
         console.log(res?.data?.data?.hire);
-        setData(res?.data?.data?.hiredDevelopers);
+        setData(res?.data?.data?.hire);
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -34,9 +35,29 @@ const DevHiring = () => {
     fetchData();
   }, []);
 
+  const updateOffer = async (id, clientid, devid) => {
+    const url = 'http://localhost:2023';
+    const mainUrl = 'https://smart-2022.herokuapp.com';
+    try {
+      const res = await axios.patch(
+        `${url}/hireupdate/${id}/${clientid}/${devid}`
+      );
+      console.log(res?.data?.data?.hire);
+      setData(res?.data?.data?.hire);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Unable to get Data',
+        timer: 2500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>
@@ -50,11 +71,8 @@ const DevHiring = () => {
                     mr={1}
                     ml={5}
                   /> */}
-                  {/* <AvatarAndName>
-                    <Circle>CE</Circle>
-                    <DeveloperName>Confidence Efem</DeveloperName>
-                  </AvatarAndName> */}
-                  <JobClientProfile dev={props?.developer} />
+
+                  <JobClientProfile dev={props?.user} />
                   <JobTitle>
                     <span>Hired For:</span>
                     {props.jobTitle}
@@ -62,19 +80,22 @@ const DevHiring = () => {
                   <HiredDate>
                     Hired: <span>{moment(props?.createdAt).fromNow()}</span>
                   </HiredDate>
-                  <Amount>{props?.clientName}</Amount>
+                  <Amount>N{props?.salary}</Amount>
 
                   {props?.acceptOffer ? (
                     <PendingButton
-                      style={{ backgroundColor: '#3ddabe', color: 'black' }}
+                      style={{ backgroundColor: 'white', color: 'black' }}
                     >
-                      Accepted Offer
+                      Offer Accepted
                     </PendingButton>
                   ) : (
                     <PendingButton
                       style={{ backgroundColor: '#3ddabe', color: 'black' }}
+                      onClick={() => {
+                        updateOffer(props._id, props?.user, props?.developer);
+                      }}
                     >
-                      Offer Pending
+                      Accept Offer
                     </PendingButton>
                   )}
 
@@ -111,8 +132,13 @@ const PendingButton = styled.div`
   padding: 10px 15px;
   border-radius: 30px;
   background: red;
+  cursor: pointer;
+  transition: all 350ms;
   font-size: 12px;
   color: white;
+  :hover {
+    transform: scale(1.02);
+  }
 `;
 const HiredDate = styled.div`
   display: flex;

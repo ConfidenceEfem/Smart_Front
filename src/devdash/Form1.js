@@ -1,127 +1,129 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import * as yup from 'yup';
-import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Swal from 'sweetalert2';
-import axios from 'axios';
 import { AuthContext } from '../AuthState/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const Form = () => {
+const Form1 = () => {
   const { id } = useParams();
-  const { currentUser, see } = React.useContext(AuthContext);
-  console.log(currentUser);
+
+  const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  console.log(see);
+
+  const [image, setImage] = React.useState('');
+
+  const uploadCv = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
   const schema = yup.object().shape({
-    name: yup.string().required('Input your detail'),
-    email: yup.string().required('Input your email'),
-    job: yup.string().required('Input your job'),
-    salary: yup.number().required('Input your salary'),
-    hours: yup.string().required('Input working errors'),
-    description: yup.string().required('Input your description'),
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    application: yup.string().required(),
   });
 
   const {
+    handleSubmit,
     register,
     reset,
-    handleSubmit,
-
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
   const submit = handleSubmit(async (data) => {
-    const { name, email, job, salary, hours, description } = data;
+    console.log(data);
+
+    const { name, email, application } = data;
+
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
     try {
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      };
+
+      const formData = new FormData();
+
+      formData.append('email', email);
+      formData.append('cvImage', image);
+      formData.append('name', name);
+      formData.append('applicationLetter', application);
       const res = await axios.post(
-        `${url}/hire/${currentUser?.data?._id}/${id}`,
-        {
-          clientName: name,
-          email,
-          details: description,
-          salary,
-          jobTitle: job,
-          workingHours: hours,
-        }
+        `${url}/oneapply/${currentUser?.data?._id}/${id}`,
+        formData,
+        config
       );
       if (res) {
         Swal.fire({
           icon: 'success',
-          title: 'Hire Developer Successfully',
+          title: 'Job Application Submitted Successfully',
           showConfirmButton: false,
           timer: 2500,
         }).then(() => {
-          navigate(`/dash/hired`);
+          navigate(`/dev/appliedjob`);
         });
       }
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: 'Failed to Hire Developer',
+        title: 'Failed to Apply For Job',
         showConfirmButton: false,
         timer: 2500,
       });
     }
-
-    console.log(data);
   });
 
   return (
     <Container>
       <Card>
         <HeadHold>
-          <BoldTxt>HIRE US</BoldTxt>
+          <BoldTxt>APPLY NOW</BoldTxt>
           <Div></Div>
           <LigTxt>Fill out the form below to learn more!</LigTxt>
         </HeadHold>
         <Details onSubmit={submit}>
-          <NameInput>
-            <Fir>
-              <FirstName>ClientName</FirstName>
-              <input placeholder="Clinton" {...register('name')} />
-            </Fir>
-            <Fir>
-              <FirstName>Email</FirstName>
-              <input placeholder="kennedy" {...register('email')} />
-            </Fir>
-          </NameInput>
-          <NameInput>
-            <Fir>
-              <FirstName>Job</FirstName>
-              <input placeholder="Frontend" {...register('job')} />
-            </Fir>
-            <Fir>
-              <FirstName>Salary</FirstName>
-              <input placeholder="$300" type="number" {...register('salary')} />
-            </Fir>
-          </NameInput>
           <Time>
             <Sec>
-              <FirstName>Working Hours</FirstName>
-              <input placeholder="10hrs/days" {...register('hours')} />
+              <FirstName>Name</FirstName>
+              <input placeholder="Enter your Name" {...register('name')} />
             </Sec>
           </Time>
-          <TextArea
-            placeholder="Enter Job Description"
-            {...register('description')}
+          <Time1>
+            <Sec>
+              <FirstName>Email</FirstName>
+              <input placeholder="Input your Email" {...register('email')} />
+            </Sec>
+          </Time1>
+          <Time2>
+            <Sec1>
+              <FirstName1>Cv Image</FirstName1>
+              <input type="file" style={{ color: 'red' }} onChange={uploadCv} />
+            </Sec1>
+          </Time2>
+          <Textarea
+            placeholder="Write a short descriptive Application Letter"
+            {...register('application')}
           />
-          <Btn type="submit">Send</Btn>
+          <Btn>Send</Btn>
         </Details>
       </Card>
     </Container>
   );
 };
 
-export default Form;
+export default Form1;
 
 const Btn = styled.button`
-  width: 150px;
-  outline: none;
   border: none;
+  cursor: pointer;
+  width: 150px;
   height: 40px;
   background-color: #363e51;
   color: white;
@@ -131,9 +133,11 @@ const Btn = styled.button`
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+  margin-bottom: 5px;
   border-radius: 5px;
   font-size: 17px;
   font-weight: 600;
+  transition: all 550ms;
   @media screen and (max-width: 425px) {
     width: 230px;
     height: 40px;
@@ -145,7 +149,7 @@ const Btn = styled.button`
     transform: scale(1.05);
   }
 `;
-const TextArea = styled.textarea`
+const Textarea = styled.textarea`
   width: 455px;
   height: 130px;
   /* background: lightgrey; */
@@ -153,12 +157,35 @@ const TextArea = styled.textarea`
   border: 0;
   outline: none;
   border-radius: 5px;
-  padding: 0 10px;
+  padding: 5px 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   @media screen and (max-width: 425px) {
     width: 220px;
     margin-top: 10px;
+  }
+  ::placeholder {
+    font-family: poppins;
+    font-size: 15px;
+  }
+`;
+const Sec1 = styled.div`
+  input {
+    width: 455px;
+    height: 35px;
+    /* padding: 0 10px; */
+    border: 0;
+    outline: none;
+    margin: 0 9px;
+    border-radius: 3px;
+    @media screen and (max-width: 425px) {
+      width: 220px;
+    }
+
+    ::placeholder {
+      font-family: poppins;
+      font-size: 15px;
+    }
   }
 `;
 const Sec = styled.div`
@@ -188,10 +215,33 @@ const Time = styled.div`
   align-items: center;
   /* background-color: #f5f5f5; */
 `;
-const FirstName = styled.div`
-  font-size: 17px;
+const Time1 = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
+  align-items: center;
+  /* background-color: #f5f5f5; */
+`;
+const Time2 = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  margin-top: -15px;
+  align-items: center;
+  /* background-color: #f5f5f5; */
+`;
+const FirstName1 = styled.div`
+  font-size: 15px;
   font-weight: 600;
-  margin: 0 9px;
+  margin: 4px 5px;
+`;
+const FirstName = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  margin: 4px 9px;
 `;
 const Fir = styled.div`
   @media screen and (max-width: 425px) {
@@ -265,13 +315,14 @@ const BoldTxt = styled.div`
 const HeadHold = styled.div`
   width: 100%;
   height: 180px;
-  background: lightgrey;
+  /* background: grey; */
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  background-image: url('dev.jpg');
+  background-image: url('pics.jpg');
   background-size: cover;
+  /* background-repeat: no-repeat; */
   @media screen and (max-width: 768px) {
     width: 100%;
     display: flex;

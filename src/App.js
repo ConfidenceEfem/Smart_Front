@@ -38,6 +38,7 @@ import DevMainScreen from './devdash/DevMainScreen';
 import DevEditProfile from './devdash/DevEditProfile';
 import DevAppliedJob from './devdash/DevAppliedJob';
 import DevHiring from './devdash/DevHiring';
+import DevApplyJob from './devdash/DevApplyJob';
 
 const App = () => {
   return (
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/dev/editprofile" element={<DevEditProfile />} />
           <Route path="/dev/appliedjob" element={<DevAppliedJob />} />
           <Route path="/dev/hired" element={<DevHiring />} />
+          <Route path="/dev/applyform/:id" element={<DevApplyJob />} />
         </Routes>
       </Router>
     </div>

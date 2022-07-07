@@ -35,19 +35,15 @@ const Hero = () => {
               </SmallText>
             </Text>
             <InputHold>
-              <Inputhd1>
-                <Input placeholder="What are you looking for" />
-                <GrSearch size={'25px'} cursor={'pointer'} />
-              </Inputhd1>
-              <Div2>or</Div2>
+              {/* <Div2>or</Div2> */}
               <Btnhd2>
-                <Btn1
+                {/* <Btn1
                   onClick={() => {
                     navigate(`/signup`);
                   }}
                 >
                   Post a Job - it free
-                </Btn1>
+                </Btn1> */}
               </Btnhd2>
             </InputHold>
             {/* <Stkhold>
@@ -73,7 +69,7 @@ export default Hero;
 
 const Righthold = styled.div`
   width: 100%;
-  height: 99%;
+  height: 90%;
   /* background-color: green; */
   img {
     width: 100%;
