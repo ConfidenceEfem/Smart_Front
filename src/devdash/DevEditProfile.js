@@ -62,10 +62,10 @@ const DevEditProfile = () => {
           timer: 2500,
           showConfirmButton: true,
         }).then(() => {
-          navigate(`/dev/main`);
+          // navigate(`/dev/main`);
         });
       }
-      console.log(res.data?.data);
+      console.log(res?.data?.data);
       // localStorage.setItem('smartuser', JSON.stringify(res.data));
     } catch (error) {
       Swal.fire({
