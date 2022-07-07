@@ -6,16 +6,44 @@ import icon from '../dash/images/user.png';
 import icon1 from '../dash/images/suitcase.png';
 import icon2 from '../dash/images/hired.png';
 import img from '../dash/images/avatar.png';
+import moment from 'moment';
+import axios from 'axios';
+
 import ClientDetailComp from '../team/ClientDetail';
 import { AuthContext } from '../AuthState/AuthProvider';
+import Swal from 'sweetalert2';
+import Header from '../team/Header';
 
 const MainDashScreen = () => {
   // console.log(user);
-  const { see, currentUser } = useContext(AuthContext);
+  const { currentUser, see } = useContext(AuthContext);
+  console.log(currentUser);
 
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        console.log(res?.data?.data);
+        setData(res?.data?.data);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to get Data',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>
@@ -27,7 +55,7 @@ const MainDashScreen = () => {
                     <TotalText>Complete Profile</TotalText>
                     <Amoutn>50%</Amoutn>
                     <Join>
-                      <span>Joined: </span> 4days
+                      <span>Joined: </span> {moment(data?.createdAt).fromNow()}
                     </Join>
                   </TextContents>
 
@@ -38,7 +66,7 @@ const MainDashScreen = () => {
                 <CardWrapper>
                   <TextContents>
                     <TotalText>Total Jobs Posted</TotalText>
-                    <Amoutn>10</Amoutn>
+                    <Amoutn>{data?.jobs?.length}</Amoutn>
                     <Join>
                       <span>Recent:</span>
                       20days
@@ -50,8 +78,8 @@ const MainDashScreen = () => {
               <Card1>
                 <CardWrapper>
                   <TextContents>
-                    <TotalText>Total Applied Jobs</TotalText>
-                    <Amoutn>5</Amoutn>
+                    <TotalText>Total Hiring</TotalText>
+                    <Amoutn>{data?.hiredDevelopers?.length}</Amoutn>
                     <Join>
                       <span>Recent:</span>2days ago
                     </Join>

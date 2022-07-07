@@ -1,20 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import ClientDetailComp from '../team/ClientDetail';
+import DashHeader from '../maindash/DashHeader';
 import Header from '../team/Header';
-import DashHeader from './DashHeader';
-import DashNav from './DashNav';
-import Form from './Form';
-const DashHireDevelopers = () => {
+import DevNav from './DashNav';
+import Form1 from './Form1';
+const DevApplyJob = () => {
   return (
     <Container>
       {/* <DashHeader /> */}
       <Header />
       <NavAndPageHolder>
-        <DashNav />
+        <DevNav />
         <DashComp>
           <DashWrapper>
-            <Form />
+            <Form1 />
           </DashWrapper>
         </DashComp>
       </NavAndPageHolder>
@@ -22,7 +21,7 @@ const DashHireDevelopers = () => {
   );
 };
 
-export default DashHireDevelopers;
+export default DevApplyJob;
 
 const Title = styled.div`
   opacity: 1;

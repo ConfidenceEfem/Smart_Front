@@ -1,45 +1,77 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import DashHeader from '../maindash/DashHeader';
 import DashNav from './DashNav';
+import moment from 'moment';
+import { AuthContext } from '../AuthState/AuthProvider';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Header from '../team/Header';
 
 const DevAppliedJob = () => {
+  const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        console.log(res?.data?.data);
+        setData(res?.data?.data?.applied);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to get Data',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Container>
-      <DashHeader />
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>
           <DashWrapper>
-            <SecondCard>
-              <CardWrapper>
-                {/* <Avatar
+            {data.map((props) => (
+              <SecondCard key={props._id}>
+                <CardWrapper>
+                  {/* <Avatar
                   size="md"
                   name={``}
                   mr={1}
                   ml={5}
                 /> */}
-                <AvatarAndName>
-                  <Circle>CE</Circle>
-                  <ClientName>Confidence Efem</ClientName>
-                </AvatarAndName>
-                <JobTitle>
-                  <span>Applied For:</span>FrontEnd Engineerer
-                </JobTitle>
-                <HiredDate>
-                  Applied: <span>2 days ago</span>
-                </HiredDate>
-                <Amount>confidenceefem@gmail.com</Amount>
+                  <AvatarAndName>
+                    <Circle>CE</Circle>
+                    <ClientName>Confidence Efem</ClientName>
+                  </AvatarAndName>
+                  <JobTitle>
+                    <span>Applied For:</span>FrontEnd Engineerer
+                  </JobTitle>
+                  <HiredDate>
+                    Applied: <span>2 days ago</span>
+                  </HiredDate>
+                  <Amount>confidenceefem@gmail.com</Amount>
 
-                {/* <PendingButton
+                  {/* <PendingButton
                   style={{ backgroundColor: '#3ddabe', color: 'black' }}
                 >
                   Hired
                 </PendingButton> */}
 
-                <PendingButton>View CV</PendingButton>
-              </CardWrapper>
-            </SecondCard>
+                  <PendingButton>View CV</PendingButton>
+                </CardWrapper>
+              </SecondCard>
+            ))}
           </DashWrapper>
         </DashComp>
       </NavAndPageHolder>
@@ -117,14 +149,14 @@ const SecondCard = styled.div`
   min-height: 80px;
   height: 100%auto;
   justify-content: center;
+  border-radius: 5px;
 `;
 
 const DashWrapper = styled.div`
   width: 92%;
   height: 100%;
   display: flex;
-
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 const DashComp = styled.div`

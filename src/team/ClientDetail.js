@@ -18,10 +18,10 @@ const ClientDetailComp = ({ id }) => {
   }, []);
   return (
     <ClientDetail>
-      <ClientImage src={''} />
+      {/* <ClientImage src={''} /> */}
       <ClientNameAndCompany>
-        <ClientName>{jobData.name}</ClientName>
-        <Company>{jobData.stack}</Company>
+        <ClientName>Confidence Efem</ClientName>
+        <Company>Frontend Developer</Company>
       </ClientNameAndCompany>
     </ClientDetail>
   );
@@ -34,7 +34,7 @@ const Company = styled.div`
 `;
 const ClientName = styled.div`
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
 `;
 const ClientNameAndCompany = styled.div`
   display: flex;

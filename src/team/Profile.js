@@ -8,6 +8,7 @@ import {
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Header from './Header';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -39,11 +40,12 @@ const Profile = () => {
   return (
     <>
       <Con>
+        <Header />
         <Wrap1>
           <Hol>
             <Hold>
               <Card1>
-                <img />
+                <img src={data?.image} />
               </Card1>
               <Card2>
                 <Name>{data?.name}</Name>
@@ -128,7 +130,7 @@ const Profile = () => {
                   </A1>
                   <A1>
                     <Num href="mailto:anoziechiderasilverlin@gmail.com">
-                      lucia@gmail.com
+                      {data?.email}
                     </Num>
                   </A1>
                   <A1>
@@ -306,7 +308,8 @@ const B = styled.div`
 const Con = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  flex-direction: column;
   align-items: center;
   padding-bottom: 70px;
 `;
@@ -319,6 +322,18 @@ const Card1 = styled.div`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transition: all 350ms;
   border-radius: 5px;
+
+  img {
+    height: 300px;
+    width: 300px;
+    background-color: pink;
+    border: solid 2px white;
+    margin-bottom: -90px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: all 350ms;
+    border-radius: 5px;
+    object-fit: cover;
+  }
   /* transform: scale(1.12); */
 
   @media screen and (max-width: 1150px) {

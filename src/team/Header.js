@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { HiOutlineBell } from 'react-icons/hi';
 import { IoReorderThreeOutline } from 'react-icons/io5';
 import { BiUserCircle } from 'react-icons/bi';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from '../dash/images/logo11.png';
+import img from '../dash/images/avatar.png';
+import { AuthContext } from '../AuthState/AuthProvider';
+import axios from 'axios';
 
 const Header = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  const [jobData, setJobData] = React.useState([]);
+
+  const fetchData = async () => {
+    const url = 'http://localhost:2023';
+    const mainUrl = 'https://smart-2022.herokuapp.com';
+    const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+    console.log(res);
+    setJobData(res.data.data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+    // console.log(jobData);
+  }, []);
+
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Wrapper>
@@ -22,12 +44,43 @@ const Header = () => {
           </Navs>
         </Navigation>
         {/* <Navigation> */}
+        {currentUser?.token ? (
+          <Btnhold>
+            {' '}
+            <Name>{jobData?.name}</Name>
+            {jobData?.image === '' ? (
+              <Avatar src={img} alt="avatar" />
+            ) : (
+              <Avatar src={jobData?.image} alt="avatar" />
+            )}
+            <DashButton
+              onClick={() => {
+                if (currentUser?.data?.isClient) {
+                  navigate('/dash/overview');
+                } else {
+                  navigate('/dev/main');
+                }
+              }}
+            >
+              DashBoard
+            </DashButton>
+            <Logout
+              onClick={() => {
+                localStorage.removeItem('smartuser');
+                window.location.reload();
+              }}
+            >
+              Logout
+            </Logout>
+          </Btnhold>
+        ) : (
+          <Btnhold>
+            <Btn1 to="/signin">Login</Btn1>
+            <Btn2 to="/signup">Register</Btn2>
+            <HiOutlineBell size={'30px'} cursor={'pointer'} />
+          </Btnhold>
+        )}
 
-        <Btnhold>
-          <Btn1 to="/signin">Login</Btn1>
-          <Btn2 to="/signup">Register</Btn2>
-          <HiOutlineBell size={'30px'} cursor={'pointer'} />
-        </Btnhold>
         <Icon2>
           <BiUserCircle size={'30px'} cursor={'pointer'} />
         </Icon2>
@@ -40,6 +93,58 @@ const Header = () => {
   );
 };
 export default Header;
+
+const Avatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  /* background: red; */
+`;
+const Name = styled.div`
+  margin-right: 10px;
+`;
+const DashButton = styled.div`
+  width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin: 0 20px;
+  font-size: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: poppins;
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  background: #1967d2;
+  cursor: pointer;
+  :hover {
+    transition: 350ms;
+  }
+`;
+const Logout = styled.div`
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  font-size: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: poppins;
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  background: red;
+  cursor: pointer;
+  :hover {
+    transition: 350ms;
+  }
+`;
 
 const Navigation = styled.div`
   display: flex;
@@ -146,7 +251,7 @@ const Btn1 = styled(Link)`
   }
 `;
 const Btn2 = styled(NavLink)`
-  width: 200px;
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center;

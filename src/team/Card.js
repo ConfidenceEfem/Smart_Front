@@ -1,41 +1,47 @@
-import Reac, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import Header from './Header';
-import img from '../dash/images/avatar.png';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import ClientDetailComp from './ClientDetail';
 import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
 import { MdOutlineWork } from 'react-icons/md';
 import { BiCurrentLocation } from 'react-icons/bi';
+import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../AuthState/AuthProvider';
 
-const FindJobs = () => {
+const Card = () => {
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const [data, setData] = useState([]);
+  const [jobData, setJobData] = React.useState([]);
 
-  const fetchData = async () => {
-    const url = 'http://localhost:2023';
-    const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${url}/alljobs`);
-    setData(res.data.data);
-  };
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      await axios
+        .get(`${url}/alljobs`)
+        .then((result) => {
+          console.log(result?.data?.data);
+          setJobData(result?.data?.data);
+        })
+        .catch((erro) => {
+          console.log(erro);
+        });
+    };
 
-  useEffect(() => {
     fetchData();
-    console.log(data);
   }, []);
 
   return (
-    <MainContainer>
-      <Header />
-      <Con>
-        <Hold>
-          {data.map((props, i) => (
+    <Container>
+      {' '}
+      <ContWrapper>
+        <TextHolder>
+          <TextHeading>Popular Job Categories</TextHeading>
+          <SubDetail>Find the best Job on Our Platform</SubDetail>
+        </TextHolder>
+        <Wrapper>
+          {jobData.map((props) => (
             <Carder
               key={props._id}
               onClick={() => {
@@ -71,13 +77,13 @@ const FindJobs = () => {
               </Holder>
             </Carder>
           ))}
-        </Hold>
-      </Con>
-    </MainContainer>
+        </Wrapper>
+      </ContWrapper>
+    </Container>
   );
 };
 
-export default FindJobs;
+export default Card;
 
 const SubDetail = styled.div`
   margin-top: 10px;
@@ -287,25 +293,24 @@ const Carder = styled.div`
     width: 340px;
   }
 `;
-
-const MainContainer = styled.div`
-  display: flex;
+const Wrapper = styled.div`
+  width: 100%;
   height: 100%;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Hold = styled.div`
-  width: 90%;
-  margin-top: 30px;
+  margin-top: 50px;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  /* background: lightgray; */
+  @media screen and (max-width: 1024px) {
+    width: 95%;
+  }
+  @media screen and (max-width: 768px) {
+    width: 95%;
+  }
 `;
-
-const Con = styled.div`
+const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 95px);
+  height: auto;
   display: flex;
   justify-content: center;
   font-family: poppins;

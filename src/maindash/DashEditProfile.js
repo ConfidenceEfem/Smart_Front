@@ -7,6 +7,7 @@ import DashNav from './DashNav';
 import { AiFillCamera } from 'react-icons/ai';
 import { AuthContext } from '../AuthState/AuthProvider';
 import { useNavigate } from 'react-router';
+import Header from '../team/Header';
 
 const DashEditProfile = () => {
   const { currentUser } = useContext(AuthContext);
@@ -78,7 +79,8 @@ const DashEditProfile = () => {
   };
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>

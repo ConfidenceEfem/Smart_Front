@@ -11,6 +11,7 @@ import moment from 'moment';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Header from '../team/Header';
 
 const DevMainScreen = () => {
   // console.log(user);
@@ -24,9 +25,9 @@ const DevMainScreen = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?._id}`);
-        console.log(res);
-        setData(res);
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        console.log(res?.data?.data);
+        setData(res?.data?.data);
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -41,7 +42,8 @@ const DevMainScreen = () => {
 
   return (
     <Container>
-      <DashHeader />
+      {/* <DashHeader /> */}
+      <Header />
       <NavAndPageHolder>
         <DevNav />
         <DashComp>
@@ -50,11 +52,10 @@ const DevMainScreen = () => {
               <Card1>
                 <CardWrapper>
                   <TextContents>
-                    <TotalText>Complete {see}</TotalText>
+                    <TotalText>Complete Profile {see}</TotalText>
                     <Amoutn>50%</Amoutn>
                     <Join>
-                      <span>Joined: </span>{' '}
-                      {moment(currentUser?.data?.createdAt).fromNow()}
+                      <span>Joined: </span> {moment(data?.createdAt).fromNow()}
                     </Join>
                   </TextContents>
 
@@ -65,10 +66,13 @@ const DevMainScreen = () => {
                 <CardWrapper>
                   <TextContents>
                     <TotalText>Total Jobs Applied</TotalText>
-                    <Amoutn>10</Amoutn>
+                    <Amoutn>{data?.applied?.length}</Amoutn>
                     <Join>
                       <span>Recent:</span>
-                      20days
+                      {
+                        moment().fromNow()
+                        // data?.applied[data?.applied.length - 1]?.createdAt
+                      }
                     </Join>
                   </TextContents>
                   <IconShow src={icon1} />
@@ -78,7 +82,7 @@ const DevMainScreen = () => {
                 <CardWrapper>
                   <TextContents>
                     <TotalText>Total Client Hired</TotalText>
-                    <Amoutn>5</Amoutn>
+                    <Amoutn>{data?.hire?.length}</Amoutn>
                     <Join>
                       <span>Recent:</span>2days ago
                     </Join>
