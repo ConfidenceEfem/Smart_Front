@@ -15,7 +15,7 @@ const Hero3 = () => {
         <Right>
           <TextHold>
             <BigText>
-              Millions of Smart D Jobs, Find the one that suits you.
+              Millions of Smart Tech Jobs, Find the one that suits you.
             </BigText>
             <SmallText>
               Search all the open positions on the web. Get your own
