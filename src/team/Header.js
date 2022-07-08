@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineBell } from 'react-icons/hi';
 import { IoReorderThreeOutline } from 'react-icons/io5';
@@ -11,7 +11,7 @@ import axios from 'axios';
 import { GiCancel } from 'react-icons/gi';
 
 const Header = () => {
-  const [change, setChange] = useState(true)
+  const [change, setChange] = useState(true);
   const { currentUser } = useContext(AuthContext);
 
   const [jobData, setJobData] = React.useState([]);
@@ -31,9 +31,9 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  const Toggle = () =>{
-    setChange(!change)
-  }
+  const Toggle = () => {
+    setChange(!change);
+  };
 
   return (
     <Container>
@@ -47,10 +47,43 @@ const Header = () => {
             <Nav to="/">Home</Nav>
             <Nav to="/jobs">Find jobs</Nav>
             <Nav to="/talent">Hire Talents</Nav>
-            <Nav1>DashBoard</Nav1>
-            <Nav1>Login</Nav1>
-            <But1>LogOut</But1>
-            <But>Register</But>
+            {currentUser ? (
+              <Nav1
+                onClick={() => {
+                  if (currentUser?.data?.isClient) {
+                    navigate('/dash/overview');
+                  } else {
+                    navigate('/dev/main');
+                  }
+                }}
+              >
+                DashBoard
+              </Nav1>
+            ) : null}
+
+            {!currentUser ? <Nav1>Login</Nav1> : null}
+
+            {currentUser ? (
+              <But1
+                onClick={() => {
+                  localStorage.removeItem('smartuser');
+                  window.location.reload();
+                  navigate('/');
+                }}
+              >
+                LogOut
+              </But1>
+            ) : null}
+
+            {!currentUser ? (
+              <But
+                onClick={() => {
+                  navigate('/signup');
+                }}
+              >
+                Register
+              </But>
+            ) : null}
           </Navs>
         </Navigation>
         {/* <Navigation> */}
@@ -95,8 +128,11 @@ const Header = () => {
           <BiUserCircle size={'30px'} cursor={'pointer'} />
         </Icon2> */}
         <Icon onClick={Toggle}>
-          {change ? <IoReorderThreeOutline size={'30px'} cursor={'pointer'} /> : 
-          <GiCancel size={'30px'} cursor={'pointer'} /> }
+          {change ? (
+            <IoReorderThreeOutline size={'30px'} cursor={'pointer'} />
+          ) : (
+            <GiCancel size={'30px'} cursor={'pointer'} />
+          )}
         </Icon>
         {/* </Navigation> */}
       </Wrapper>
@@ -212,21 +248,20 @@ const Navs = styled.div`
 
   @media screen and (max-width: 768px) {
     font-family: poppins;
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     position: absolute;
     height: 80vh;
     width: 70%;
     top: 95px;
     font-weight: 600;
-    justify-content:space-evenly;
-    left: ${({change})=> (change? '-100%' : 0)};
-        background-color: darkblue;
-        color: white;
-        font-family: poppins;
-        border-radius: 0px 10px 10px 0px;
-        transition: all 900ms;
-
+    justify-content: space-evenly;
+    left: ${({ change }) => (change ? '-100%' : 0)};
+    background-color: darkblue;
+    color: white;
+    font-family: poppins;
+    border-radius: 0px 10px 10px 0px;
+    transition: all 900ms;
   }
 
   /* background: white; */
@@ -241,28 +276,27 @@ const Nav = styled(Link)`
   cursor: pointer;
   font-family: poppins;
 
-  @media screen and (max-width:788px){
-      color: white;
+  @media screen and (max-width: 788px) {
+    color: white;
   }
 `;
 
 const Nav1 = styled.div`
-display: none;
+  display: none;
 
-@media screen and (max-width: 768px){
-  font-size: 16px;
-  display: flex;
-  font-family: poppins;
-  font-weight: 600;
-  text-decoration: none;
-  /* color: #1967d2; */
-  color: white;
-  margin: 0 17px;
-  cursor: pointer;
-  font-family: poppins;
-}
-
-`
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+    display: flex;
+    font-family: poppins;
+    font-weight: 600;
+    text-decoration: none;
+    /* color: #1967d2; */
+    color: white;
+    margin: 0 17px;
+    cursor: pointer;
+    font-family: poppins;
+  }
+`;
 const LogoDiv = styled.div`
   width: 150px;
   display: flex;
@@ -321,56 +355,56 @@ const Btn2 = styled(NavLink)`
   }
 `;
 const But = styled.div`
-display: none;
+  display: none;
 
-@media screen and (max-width: 768px){
-  width: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  font-size: 15px;
-  text-decoration: none;
-  margin: 0 20px;
-  font-weight: bold;
-  font-family: poppins;
-  border: 0;
-  border-radius: 5px;
-  outline: none;
-  color: white;
-  background: #1967d2;
-  cursor: pointer;
-  :hover {
-    background: darkblue;
-    transition: 350ms;
+  @media screen and (max-width: 768px) {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-family: poppins;
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    color: white;
+    background: #1967d2;
+    cursor: pointer;
+    :hover {
+      background: darkblue;
+      transition: 350ms;
+    }
   }
-}
 `;
 const But1 = styled.div`
-display: none;
+  display: none;
 
-@media screen and (max-width: 768px){
-  width: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  font-size: 15px;
-  text-decoration: none;
-  margin: 0 20px;
-  font-weight: bold;
-  font-family: poppins;
-  border: 0;
-  border-radius: 5px;
-  outline: none;
-  color: white;
-  background: darkorange;
-  cursor: pointer;
-  :hover {
-    background: darkblue;
-    transition: 350ms;
+  @media screen and (max-width: 768px) {
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-family: poppins;
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    color: white;
+    background: darkorange;
+    cursor: pointer;
+    :hover {
+      background: darkblue;
+      transition: 350ms;
+    }
   }
-}
 `;
 
 const Icon = styled.div`

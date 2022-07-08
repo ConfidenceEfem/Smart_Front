@@ -7,11 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import LoadingScreen from '../team/LoadingScreen';
 
 const Form1 = () => {
   const { id } = useParams();
 
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, loading, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -37,6 +38,7 @@ const Form1 = () => {
 
   const submit = handleSubmit(async (data) => {
     console.log(data);
+    dispatch({ type: 'DataRequest' });
 
     const { name, email, application } = data;
 
@@ -61,6 +63,7 @@ const Form1 = () => {
         config
       );
       if (res) {
+        dispatch({ type: 'DataSuccess' });
         Swal.fire({
           icon: 'success',
           title: 'Job Application Submitted Successfully',
@@ -71,6 +74,7 @@ const Form1 = () => {
         });
       }
     } catch (error) {
+      dispatch({ type: 'DataFailed' });
       Swal.fire({
         icon: 'error',
         title: 'Failed to Apply For Job',
@@ -82,6 +86,7 @@ const Form1 = () => {
 
   return (
     <Container>
+      <LoadingScreen />
       <Card>
         <HeadHold>
           <BoldTxt>APPLY NOW</BoldTxt>
@@ -358,6 +363,7 @@ const Container = styled.div`
   height: 100%;
   min-height: 100vh;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   font-family: poppins;

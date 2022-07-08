@@ -19,6 +19,15 @@ const DevHiringCard = ({ props }) => {
       const res = await axios.patch(
         `${url}/hireupdate/${id}/${clientid}/${devid}`
       );
+      if (res) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Offer Accepted',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+        window.location.reload();
+      }
       console.log(res?.data?.data?.hire);
       setData(res?.data?.data?.hire);
     } catch (error) {
