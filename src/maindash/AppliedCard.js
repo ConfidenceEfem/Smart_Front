@@ -1,17 +1,14 @@
 import axios from 'axios';
+import moment from 'moment';
 import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../AuthState/AuthProvider';
-import Header from '../team/Header';
-import AppliedCard from './AppliedCard';
-import DashNav from './DashNav';
 
-const AllAppliedJob = () => {
+const AppliedCard = ({ props }) => {
+  console.log(props);
   const { currentUser } = useContext(AuthContext);
-
-  const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -22,9 +19,9 @@ const AllAppliedJob = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/clientonejob/${id}`);
-        // console.log(res?.data?.data.jobs);
-        setData(res?.data?.data?.apply);
+        const res = await axios.get(`${url}/oneapply/${props}`);
+        console.log(res?.data?.data);
+        setData(res?.data?.data);
         // console.log(res?.data?.data?.apply);
       } catch (error) {
         Swal.fire({
@@ -38,25 +35,43 @@ const AllAppliedJob = () => {
     fetchData();
   }, []);
 
+  console.log(data);
+
   return (
-    <Container>
-      {/* <DashHeader /> */}
-      <Header />
-      <NavAndPageHolder>
-        <DashNav />
-        <DashComp>
-          <DashWrapper>
-            {data.map((props) => (
-              <AppliedCard props={props} />
-            ))}
-          </DashWrapper>
-        </DashComp>
-      </NavAndPageHolder>
-    </Container>
+    <SecondCard>
+      <CardWrapper>
+        {/* <Avatar
+      size="md"
+      name={``}
+      mr={1}
+      ml={5}
+    /> */}
+        <AvatarAndName>
+          <Circle>CE</Circle>
+          <ClientName>{data?.name}</ClientName>
+        </AvatarAndName>
+        {/* <JobTitle>
+          <span>Applied For:</span>FrontEnd Engineerer
+        </JobTitle> */}
+        <HiredDate>
+          Applied: <span>{moment(data?.createdAt).fromNow()}</span>
+        </HiredDate>
+        <Amount>{data?.email}</Amount>
+
+        {/* <PendingButton
+      style={{ backgroundColor: '#3ddabe', color: 'black' }}
+    >
+      Hired
+    </PendingButton> */}
+        <a href={`${data?.cvImage}`} target="_blank">
+          <PendingButton>View CV</PendingButton>
+        </a>
+      </CardWrapper>
+    </SecondCard>
   );
 };
 
-export default AllAppliedJob;
+export default AppliedCard;
 
 const CardWrapper = styled.div`
   width: 97%;
@@ -75,6 +90,7 @@ const Circle = styled.div`
   margin-right: 15px;
 `;
 const PendingButton = styled.div`
+  text-decoration: none;
   padding: 10px 15px;
   border-radius: 30px;
   background: red;
@@ -126,39 +142,4 @@ const SecondCard = styled.div`
   min-height: 80px;
   height: 100%auto;
   justify-content: center;
-`;
-
-const DashWrapper = styled.div`
-  width: 92%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  justify-content: center;
-  align-items: center;
-`;
-const DashComp = styled.div`
-  width: calc(100vw - 350px);
-  height: 100%;
-  display: flex;
-  align-items: center;
-
-  flex-direction: column;
-`;
-
-const NavAndPageHolder = styled.div`
-  display: flex;
-  background-color: #fafcff;
-  min-height: calc(100vh - 90px);
-`;
-const Container = styled.div`
-  display: flex;
-  width: 100vw;
-  flex-direction: column;
-  /* align-items: flex-end; */
-
-  /* min-height: 100vh; */
-  justify-content: space-between;
-  height: 100%;
 `;

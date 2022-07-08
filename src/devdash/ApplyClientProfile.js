@@ -1,17 +1,18 @@
 import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
 
-const JobDevProfile = ({ dev }) => {
+const ApplyClientProfile = ({ client }) => {
   const [data, setData] = React.useState([]);
+
+  const [mainData, setMainData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${dev}`);
+        const res = await axios.get(`${url}/clientonejob/${client}`);
         console.log(res?.data?.data);
         setData(res?.data?.data);
       } catch (error) {
@@ -20,28 +21,43 @@ const JobDevProfile = ({ dev }) => {
     };
     fetchData();
   }, []);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${data?.user}`);
+        console.log(res?.data?.data);
+        setMainData(res?.data?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(mainData);
 
   return (
     <AvatarAndName>
-      {data?.image === '' ? (
+      {mainData?.image === '' ? (
         <Circle>CE</Circle>
       ) : (
-        <Avatar src={data?.image} alt="image" />
+        <Avatar src={mainData?.image} alt="image" />
       )}
 
-      <DeveloperName>{data.name}</DeveloperName>
+      <ClientName>{mainData?.name}</ClientName>
     </AvatarAndName>
   );
 };
 
-export default JobDevProfile;
+export default ApplyClientProfile;
 
 const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
   display: flex;
-  object-fit: cover;
   justify-content: center;
   align-items: center;
   margin-right: 15px;
@@ -56,8 +72,7 @@ const Circle = styled.div`
   align-items: center;
   margin-right: 15px;
 `;
-
-const DeveloperName = styled.div`
+const ClientName = styled.div`
   font-weight: 600;
 
   display: flex;

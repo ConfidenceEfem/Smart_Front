@@ -156,7 +156,7 @@ const Container = styled.div`
   display: flex;
   font-family: poppins;
   /* position: fixed; */
-  z-index: 10;
+  /* z-index: 0; */
   background: white;
   justify-content: center;
   align-items: center;

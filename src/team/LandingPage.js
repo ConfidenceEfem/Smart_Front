@@ -12,18 +12,24 @@ import Card from './Card';
 
 const LandingPage = () => {
   return (
-    <div style={{ width: '100vw' }}>
+    <Container style={{ width: '100%' }}>
       <Header />
       <Hero />
 
-      {/* <Hero2 /> */}
       <Card />
       <Hero3 />
       <Hero5 />
       <Join />
       <Foto />
-    </div>
+    </Container>
   );
 };
 
 export default LandingPage;
+
+const Container = styled.div`
+width: 100%:
+/* height: 100%auto; */
+display:flex;
+flex-direction:column;
+`;

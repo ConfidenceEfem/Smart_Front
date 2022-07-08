@@ -13,14 +13,14 @@ const DashEditProfile = () => {
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  const [name, setName] = React.useState(currentUser?.name || '');
-  const [image, setImage] = React.useState(currentUser?.image || '');
+  const [name, setName] = React.useState(currentUser?.data?.name || '');
+  const [image, setImage] = React.useState(currentUser?.data?.image || '');
   const [imageLink, setImageLink] = React.useState('');
-  const [status, setStatus] = React.useState(currentUser?.status || '');
+  const [status, setStatus] = React.useState(currentUser?.data?.status || '');
   const [experience, setExperience] = React.useState(
-    currentUser?.experience || ''
+    currentUser?.data?.experience || ''
   );
-  const [bio, setBio] = React.useState(currentUser?.bio || '');
+  const [bio, setBio] = React.useState(currentUser?.data?.bio || '');
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -65,8 +65,11 @@ const DashEditProfile = () => {
           navigate(`/dash/overview`);
         });
       }
-      console.log(res.data?.data);
-      // localStorage.setItem('smartuser', JSON.stringify(res.data));
+      console.log(res?.data?.data);
+      localStorage.setItem(
+        'smartuser',
+        JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
+      );
     } catch (error) {
       Swal.fire({
         icon: 'error',

@@ -67,7 +67,7 @@ const App = () => {
           <Route path="/dash/postjob" element={<PostJob />} />
           <Route path="/dash/findtalent" element={<FindTalent />} />
           <Route path="/dash/editprofile" element={<DashEditProfile />} />
-          <Route path="/dash/appliedjob" element={<AllAppliedJob />} />
+          <Route path="/dash/appliedjob/:id" element={<AllAppliedJob />} />
           <Route path="/dash/postedjob" element={<AllPostedJob />} />
           <Route path="/dash/form/:id" element={<DashHireDevelopers />} />
           <Route path="/myprofile/:id" element={<Profile />} />

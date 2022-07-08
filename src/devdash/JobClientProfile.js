@@ -23,7 +23,12 @@ const JobClientProfile = ({ dev }) => {
 
   return (
     <AvatarAndName>
-      <Circle>CE</Circle>
+      {data?.image === '' ? (
+        <Circle>CE</Circle>
+      ) : (
+        <Avatar src={data?.image} alt="image" />
+      )}
+
       <DeveloperName>{data.name}</DeveloperName>
     </AvatarAndName>
   );
@@ -31,6 +36,16 @@ const JobClientProfile = ({ dev }) => {
 
 export default JobClientProfile;
 
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  object-fit: cover;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+`;
 const Circle = styled.div`
   width: 40px;
   height: 40px;

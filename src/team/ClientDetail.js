@@ -18,10 +18,9 @@ const ClientDetailComp = ({ id }) => {
   }, []);
   return (
     <ClientDetail>
-      {/* <ClientImage src={''} /> */}
       <ClientNameAndCompany>
-        <ClientName>Confidence Efem</ClientName>
-        <Company>Frontend Developer</Company>
+        <ClientName>{jobData?.name}</ClientName>
+        <Company>{jobData?.stack}</Company>
       </ClientNameAndCompany>
     </ClientDetail>
   );
@@ -34,23 +33,19 @@ const Company = styled.div`
 `;
 const ClientName = styled.div`
   font-weight: 600;
-  font-size: 16px;
+  font-size: 20px;
 `;
 const ClientNameAndCompany = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
 `;
-const ClientImage = styled.img`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-`;
+
 const ClientDetail = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   margin: 15px 0;
+  font-family: poppins;
 `;

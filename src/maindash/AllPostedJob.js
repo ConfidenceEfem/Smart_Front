@@ -4,13 +4,20 @@ import ClientDetailComp from '../team/ClientDetail';
 import DashHeader from './DashHeader';
 import DashNav from './DashNav';
 import img from '../dash/images/avatar.png';
+import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
+import { MdOutlineWork } from 'react-icons/md';
+import { BiCurrentLocation } from 'react-icons/bi';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../team/Header';
 
 const AllPostedJob = () => {
   const { currentUser } = useContext(AuthContext);
+  const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [data, setData] = React.useState([]);
 
@@ -44,31 +51,40 @@ const AllPostedJob = () => {
         <DashNav />
         <DashComp>
           <DashWrapper>
-            <Card>
-              <Image src={img} alt="job image" />
-              <Title>
-                <span>FrontEnd Developer</span>
-              </Title>
-              <CardWrapper>
-                <ClientDetailComp />
-                <Desc>I am a software developer and i am a badass</Desc>
-                <Stack>
-                  <span>Stack:</span>
-                </Stack>{' '}
-                <Experience>
-                  <span>Experience:</span>
-                  2yrs
-                </Experience>
-                <Deadline>
-                  <span>Deadline:</span>
-                  2Weeks
-                </Deadline>
-                <AmountAndEmail>
-                  <Email>confidenceefem1@gmail.com</Email>
-                  <Amount>$2000</Amount>
-                </AmountAndEmail>
-              </CardWrapper>
-            </Card>
+            {data.map((props) => (
+              <Carder
+                key={props._id}
+                onClick={() => {
+                  navigate(`/dash/appliedjob/${props._id}`);
+                }}
+              >
+                <Holder>
+                  <IconHold>
+                    <Icon>
+                      <FaUserCircle size="35px" />
+                    </Icon>
+                  </IconHold>
+                  <TextHold>
+                    <BoldText>{props?.jobTitle}</BoldText>
+                    <LightText>
+                      <IconText>
+                        <Icon1></Icon1>
+                        <Text1>{props.skillSet},</Text1>
+                      </IconText>
+                      <IconText1>
+                        <Icon2></Icon2>
+                        <Text1>Lagos</Text1>
+                      </IconText1>
+                      <IconText1>
+                        <Icon3></Icon3>
+                        <Text1>N{props?.cost}/ week</Text1>
+                      </IconText1>
+                    </LightText>
+                    <Btn>Full Time</Btn>
+                  </TextHold>
+                </Holder>
+              </Carder>
+            ))}
           </DashWrapper>
         </DashComp>
       </NavAndPageHolder>
@@ -78,120 +94,212 @@ const AllPostedJob = () => {
 
 export default AllPostedJob;
 
-const Title = styled.div`
-  opacity: 1;
+const SubDetail = styled.div`
+  margin-top: 10px;
   font-size: 14px;
-  font-weight: 550;
-  text-transform: uppercase;
-
-  position: absolute;
-  top: 0;
-  color: white;
-  transition: all 350ms;
-
-  span {
-    opacity: 0;
-    width: 300px;
-    height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  :hover {
-    span {
-      opacity: 1;
-    }
-  }
-`;
-const Amount = styled.div`
-  font-weight: 600;
-  color: blue;
-`;
-const Email = styled.div`
-  font-weight: 450;
-  font-size: 10px;
-`;
-const AmountAndEmail = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const Experience = styled.div`
-  width: 100%;
-  font-size: 13px;
-  margin: 3px 0;
-  span {
-    font-weight: 500;
-    font-size: 11px;
-    color: black;
-    margin-right: 5px;
-  }
-`;
-const Deadline = styled.div`
-  width: 100%;
-  font-size: 13px;
-  margin-bottom: 20px;
-  span {
-    font-weight: 500;
-    font-size: 11px;
-    color: black;
-    margin-right: 5px;
-  }
-`;
-const Stack = styled.div`
-  width: 100%;
-  display: flex;
-  font-weight: 500;
-  justify-content: flex-start;
-  align-items: center;
-
-  color: blue;
-
-  span {
-    font-weight: 500;
-    font-size: 11px;
-    color: black;
-    margin-right: 5px;
-  }
-`;
-const Desc = styled.div`
-  width: 100%;
-  font-size: 13px;
-  text-align: left;
-  margin-bottom: 10px;
-  line-height: 25px;
 `;
 
-const CardWrapper = styled.div`
+const ContWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
+  margin: 30px 0;
   width: 90%;
-  flex-direction: column;
 `;
-
-const Image = styled.img`
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
+const TextHeading = styled.div`
+  font-size: 30px;
+  font-weight: 600;
 `;
-const Card = styled.div`
-  width: 300px;
-  height: 480px;
-  box-shadow: 1px 1px 1px lightgray;
-  border-radius: 5px;
+const TextHolder = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+`;
+const Btn = styled.div`
+  width: 100px;
+  height: 50px;
+  background: lightblue;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 16px;
+  color: blue;
+  cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    margin: 7px 0 0 0;
+  }
+  @media screen and (max-width: 425px) {
+    margin: -5px 0 0 0;
+  }
+  @media screen and (max-width: 375px) {
+    margin: -1px 0 0 0;
+  }
+`;
+const Text1 = styled.div`
+  font-size: 15px;
+  color: grey;
+  margin-left: 10px;
+`;
+const IconText = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-left: 9px;
+    margin-bottom: 3px;
+  }
+`;
+const IconText1 = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 3.5px;
+  }
+`;
+const LightText = styled.div`
+  display: flex;
+  margin-top: 10px;
+  @media screen and (max-width: 768px) {
+    margin-top: -1px;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+  }
+  @media screen and (max-width: 425px) {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+    margin-top: 5px;
+  }
+  @media screen and (max-width: 375px) {
+    display: flex;
+    flex-direction: column;
+    margin-top: -1px;
+  }
+`;
+const BoldText = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  @media screen and (max-width: 768px) {
+    font-size: 17px;
+    margin-bottom: 7px;
+  }
+`;
+const TextHold = styled.div`
+  width: auto;
+  /* width: 364px; */
+  height: 100%;
+  /* background: lightcyan; */
+  margin-left: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  @media screen and (max-width: 768px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 425px) {
+    width: 280px;
+  }
+  @media screen and (max-width: 375px) {
+    width: 240px;
+  }
+`;
+const Icon = styled.div`
+  width: 70%;
+  height: 70%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Icon1 = styled(MdOutlineWork)`
+  font-size: 20px;
+  color: grey;
+`;
+const Icon2 = styled(BiCurrentLocation)`
+  font-size: 20px;
+  color: grey;
+`;
+const Icon3 = styled(FaMoneyBillAlt)`
+  font-size: 20px;
+  color: grey;
+`;
+const IconHold = styled.div`
+  width: 70px;
+  height: 70px;
+  background: red;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
+`;
+const Holder = styled.div`
+  width: auto;
+  height: 90px;
+  /* background: grey; */
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: -15px;
+  display: flex;
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    margin-top: -50px;
+  }
+  @media screen and (max-width: 425px) {
+    width: 370px;
+    margin-top: -25px;
+  }
+  @media screen and (max-width: 375px) {
+    width: 333px;
+    margin-top: -50px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 270px;
+    /* margin-top: -50px; */
+  }
+`;
+const Carder = styled.div`
+  width: auto;
+  height: 150px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 10px;
+  display: flex;
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
   transition: all 350ms;
   cursor: pointer;
-  position: relative;
-  margin: 15px;
-  top: 0;
   :hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
+  }
+  @media screen and (max-width: 1024px) {
+    width: 470px;
+    margin: 9px 0;
+  }
+  @media screen and (max-width: 768px) {
+    width: 350px;
+    height: 170px;
+  }
+  @media screen and (max-width: 425px) {
+    width: 500px;
+    height: 150px;
+  }
+  @media screen and (max-width: 375px) {
+    width: 365px;
+    height: 180px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 340px;
   }
 `;
 

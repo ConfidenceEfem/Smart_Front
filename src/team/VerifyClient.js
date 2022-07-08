@@ -15,8 +15,8 @@ const VerifyClient = () => {
   const findData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const check = await axios.get(`${mainUrl}/user/${id}`);
-    setData(check);
+    const check = await axios.get(`${url}/user/${id}`);
+    setData(check.data);
     console.log(data);
   };
 
@@ -42,7 +42,7 @@ const VerifyClient = () => {
       <Header />
       <Wrapper>
         <Text>
-          Congratulations to you {data?.email},
+          Congratulations to you {data?.name},
           <Break>You are now a Smart Developer</Break>
         </Text>
         <Sub>Click Button for Confirmation</Sub>

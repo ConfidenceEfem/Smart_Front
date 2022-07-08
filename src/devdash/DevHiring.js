@@ -8,22 +8,30 @@ import moment from 'moment';
 import DashHeader from '../maindash/DashHeader';
 import JobClientProfile from './JobClientProfile';
 import Header from '../team/Header';
+import DevHiringCard from './DevHiringCard';
+import LoadingScreen from '../team/LoadingScreen';
 
 const DevHiring = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, loading, dispatch } = useContext(AuthContext);
   // console.log(currentUser);
 
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
+      dispatch({ type: 'DataRequest' });
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
         const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
-        console.log(res?.data?.data?.hire);
-        setData(res?.data?.data?.hire);
+        if (res) {
+          dispatch({ type: 'DataSuccess' });
+          console.log(res?.data?.data?.hire);
+
+          setData(res?.data?.data?.hire);
+        }
       } catch (error) {
+        dispatch({ type: 'DataFailed' });
         Swal.fire({
           icon: 'error',
           title: 'Unable to get Data',
@@ -35,27 +43,10 @@ const DevHiring = () => {
     fetchData();
   }, []);
 
-  const updateOffer = async (id, clientid, devid) => {
-    const url = 'http://localhost:2023';
-    const mainUrl = 'https://smart-2022.herokuapp.com';
-    try {
-      const res = await axios.patch(
-        `${url}/hireupdate/${id}/${clientid}/${devid}`
-      );
-      console.log(res?.data?.data?.hire);
-      setData(res?.data?.data?.hire);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Unable to get Data',
-        timer: 2500,
-        showConfirmButton: false,
-      });
-    }
-  };
-
   return (
     <Container>
+      {loading ? <LoadingScreen /> : null}
+
       {/* <DashHeader /> */}
       <Header />
       <NavAndPageHolder>
@@ -63,45 +54,7 @@ const DevHiring = () => {
         <DashComp>
           <DashWrapper>
             {data.map((props) => (
-              <SecondCard key={props._id}>
-                <CardWrapper>
-                  {/* <Avatar
-                    size="md"
-                    name={``}
-                    mr={1}
-                    ml={5}
-                  /> */}
-
-                  <JobClientProfile dev={props?.user} />
-                  <JobTitle>
-                    <span>Hired For:</span>
-                    {props.jobTitle}
-                  </JobTitle>
-                  <HiredDate>
-                    Hired: <span>{moment(props?.createdAt).fromNow()}</span>
-                  </HiredDate>
-                  <Amount>N{props?.salary}</Amount>
-
-                  {props?.acceptOffer ? (
-                    <PendingButton
-                      style={{ backgroundColor: 'white', color: 'black' }}
-                    >
-                      Offer Accepted
-                    </PendingButton>
-                  ) : (
-                    <PendingButton
-                      style={{ backgroundColor: '#3ddabe', color: 'black' }}
-                      onClick={() => {
-                        updateOffer(props._id, props?.user, props?.developer);
-                      }}
-                    >
-                      Accept Offer
-                    </PendingButton>
-                  )}
-
-                  {/* <PendingButton>View CV</PendingButton> */}
-                </CardWrapper>
-              </SecondCard>
+              <DevHiringCard props={props} />
             ))}
           </DashWrapper>
         </DashComp>
@@ -214,6 +167,8 @@ const Container = styled.div`
   display: flex;
   width: 100vw;
   flex-direction: column;
+  position: relative;
+  top: 0;
   /* align-items: flex-end; */
 
   /* min-height: 100vh; */

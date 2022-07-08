@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import {
   AiFillFacebook,
@@ -8,11 +8,16 @@ import {
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../AuthState/AuthProvider';
+
 import Header from './Header';
 
 const Profile = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
+
+  const { currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const [data, setData] = React.useState([]);
   console.log(id);
@@ -71,21 +76,20 @@ const Profile = () => {
                 <About>
                   About <span>Me</span>
                 </About>
-                <Detail>
-                  when an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Detail>
+                <Detail>{data?.bio}</Detail>
 
                 <ButHold>
                   <But
                     onClick={() => {
-                      navigate(`/dash/form/${data?._id}`);
+                      if (currentUser?.data?.isDeveloper) {
+                        navigate(`/myprofile/${id}`);
+                        // console.log('bad');
+                      } else if (currentUser?.data?.isClient) {
+                        navigate(`/dash/form/${data?._id}`);
+                        // console.log('good');
+                      } else {
+                        navigate('/');
+                      }
                     }}
                   >
                     Hire Me
@@ -96,59 +100,28 @@ const Profile = () => {
               <Descrip>
                 <First>
                   <AgeHold>
-                    <A>Age</A>
+                    <A>Experience</A>
                   </AgeHold>
                   <AgeHold>
                     <A>Location</A>
                   </AgeHold>
-                  <AgeHold>
-                    <A>Frelance</A>
-                  </AgeHold>
+
                   <AgeHold>
                     <A>E-mail</A>
-                  </AgeHold>
-                  <AgeHold>
-                    <A>portfolio</A>
-                  </AgeHold>
-                  <AgeHold>
-                    <A>Phone-Number</A>
-                  </AgeHold>
-                  <AgeHold>
-                    <A>portfolio</A>
                   </AgeHold>
                 </First>
 
                 <Second>
                   <A1>
-                    <Num>30</Num>
+                    <Num>{data?.experience}</Num>
                   </A1>
                   <A1>
                     <Num>lagos nigeria</Num>
                   </A1>
-                  <A1>
-                    <Num>Available</Num>
-                  </A1>
+
                   <A1>
                     <Num href="mailto:anoziechiderasilverlin@gmail.com">
                       {data?.email}
-                    </Num>
-                  </A1>
-                  <A1>
-                    <Num href="mailto:anoziechiderasilverlin@gmail.com">
-                      link
-                    </Num>
-                  </A1>
-                  <A1>
-                    <Num href="mailto:anoziechiderasilverlin@gmail.com">
-                      Available
-                    </Num>
-                  </A1>
-                  <A1>
-                    <Num href="tel:0812159954">0812159954</Num>
-                  </A1>
-                  <A1>
-                    <Num href="mailto:anoziechiderasilverlin@gmail.com">
-                      Available
                     </Num>
                   </A1>
                 </Second>
@@ -311,7 +284,7 @@ const Con = styled.div`
   /* justify-content: center; */
   flex-direction: column;
   align-items: center;
-  padding-bottom: 70px;
+  /* padding-bottom: 70px; */
 `;
 const Card1 = styled.div`
   height: 300px;
@@ -379,7 +352,7 @@ const Name = styled.div`
 `;
 const Stack = styled.div`
   font-family: poppins;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 15px;
   margin-bottom: 10px;
   color: white;
@@ -437,6 +410,7 @@ const Hol = styled.div`
   border-radius: 20px 20px 0px 0px;
   width: 100%;
   display: flex;
+  /* height: auto; */
   justify-content: center;
   align-items: center;
 `;

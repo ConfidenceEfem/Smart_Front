@@ -13,6 +13,7 @@ import ClientDetailComp from '../team/ClientDetail';
 import { AuthContext } from '../AuthState/AuthProvider';
 import Swal from 'sweetalert2';
 import Header from '../team/Header';
+import HiredCard from './HiredCard';
 
 const MainDashScreen = () => {
   // console.log(user);
@@ -20,6 +21,7 @@ const MainDashScreen = () => {
   console.log(currentUser);
 
   const [data, setData] = React.useState([]);
+  const [mainData, setMainData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +42,27 @@ const MainDashScreen = () => {
     };
     fetchData();
   }, []);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        console.log(res?.data?.data?.hiredDevelopers);
+        setMainData(res?.data?.data?.hiredDevelopers);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Unable to get Data',
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Container>
       {/* <DashHeader /> */}
@@ -69,7 +92,9 @@ const MainDashScreen = () => {
                     <Amoutn>{data?.jobs?.length}</Amoutn>
                     <Join>
                       <span>Recent:</span>
-                      20days
+                      {/* {moment(
+                        data?.jobs[data?.jobs?.length - 1]?.createdAt
+                      ).fromNow()} */}
                     </Join>
                   </TextContents>
                   <IconShow src={icon1} />
@@ -81,7 +106,11 @@ const MainDashScreen = () => {
                     <TotalText>Total Hiring</TotalText>
                     <Amoutn>{data?.hiredDevelopers?.length}</Amoutn>
                     <Join>
-                      <span>Recent:</span>2days ago
+                      <span>Recent:</span>
+                      {/* {moment(
+                        data?.hiredDevelopers[data?.hiredDevelopers?.length - 1]
+                          ?.createdAt
+                      ).fromNow()} */}
                     </Join>
                   </TextContents>
                   <IconShow src={icon2} />
@@ -92,31 +121,9 @@ const MainDashScreen = () => {
               <SecondTitle>Recent Posted Jobs</SecondTitle>
               {/* <Circle></Circle> */}
               <SecondCardWrapper>
-                <Card>
-                  <Image src={img} alt="job image" />
-                  <Title>
-                    <span>FrontEnd Developer</span>
-                  </Title>
-                  <CardWrapper1>
-                    <ClientDetailComp />
-                    <Desc>I am a software developer and i am a badass</Desc>
-                    <Stack>
-                      <span>Stack:</span>
-                    </Stack>{' '}
-                    <Experience>
-                      <span>Experience:</span>
-                      2yrs
-                    </Experience>
-                    <Deadline>
-                      <span>Deadline:</span>
-                      2Weeks
-                    </Deadline>
-                    <AmountAndEmail>
-                      <Email>confidenceefem1@gmail.com</Email>
-                      <Amount>$2000</Amount>
-                    </AmountAndEmail>
-                  </CardWrapper1>
-                </Card>
+                {mainData?.map((props, i) =>
+                  i < 2 ? <HiredCard props={props} /> : null
+                )}
               </SecondCardWrapper>
             </SecondCardHolder>
           </DashWrapper>

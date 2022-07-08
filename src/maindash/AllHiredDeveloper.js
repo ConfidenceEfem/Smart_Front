@@ -8,6 +8,7 @@ import DashNav from './DashNav';
 import moment from 'moment';
 import JobDevProfile from './JobDevProfile';
 import Header from '../team/Header';
+import HiredCard from './HiredCard';
 
 const AllHiredDeveloper = () => {
   const { currentUser } = useContext(AuthContext);
@@ -44,45 +45,7 @@ const AllHiredDeveloper = () => {
         <DashComp>
           <DashWrapper>
             {data.map((props) => (
-              <SecondCard key={props._id}>
-                <CardWrapper>
-                  {/* <Avatar
-                    size="md"
-                    name={``}
-                    mr={1}
-                    ml={5}
-                  /> */}
-                  {/* <AvatarAndName>
-                    <Circle>CE</Circle>
-                    <DeveloperName>Confidence Efem</DeveloperName>
-                  </AvatarAndName> */}
-                  <JobDevProfile dev={props?.developer} />
-                  <JobTitle>
-                    <span>Hired For:</span>
-                    {props.jobTitle}
-                  </JobTitle>
-                  <HiredDate>
-                    Hired: <span>{moment(props?.createdAt).fromNow()}</span>
-                  </HiredDate>
-                  <Amount>{props?.clientName}</Amount>
-
-                  {props?.acceptOffer ? (
-                    <PendingButton
-                      style={{ backgroundColor: '#3ddabe', color: 'black' }}
-                    >
-                      Offer Accepted
-                    </PendingButton>
-                  ) : (
-                    <PendingButton
-                      style={{ backgroundColor: '#3ddabe', color: 'black' }}
-                    >
-                      Offer Pending
-                    </PendingButton>
-                  )}
-
-                  {/* <PendingButton>View CV</PendingButton> */}
-                </CardWrapper>
-              </SecondCard>
+              <HiredCard props={props} />
             ))}
           </DashWrapper>
         </DashComp>

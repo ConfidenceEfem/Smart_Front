@@ -63,13 +63,10 @@ const Card = () => {
                       <Icon1></Icon1>
                       <Text1>{props.skillSet},</Text1>
                     </IconText>
-                    <IconText1>
-                      <Icon2></Icon2>
-                      <Text1>Lagos</Text1>
-                    </IconText1>
+
                     <IconText1>
                       <Icon3></Icon3>
-                      <Text1>N{props?.cost}/ week</Text1>
+                      <Text1>N{props?.cost}/ day</Text1>
                     </IconText1>
                   </LightText>
                   <Btn>Full Time</Btn>
@@ -94,7 +91,8 @@ const ContWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 30px 0;
+  /* margin-top: 20px; */
+  /* margin: 30px 0; */
   width: 90%;
 `;
 const TextHeading = styled.div`
@@ -133,6 +131,7 @@ const Text1 = styled.div`
   font-size: 15px;
   color: grey;
   margin-left: 10px;
+  /* flex-wrap: wrap; */
 `;
 const IconText = styled.div`
   display: flex;
@@ -295,8 +294,9 @@ const Carder = styled.div`
 `;
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
-  margin-top: 50px;
+  /* height: 100%; */
+  /* height: 70px; */
+  /* background: red; */
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -310,8 +310,9 @@ const Wrapper = styled.div`
 `;
 const Container = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
+  /* margin-top: 30px; */
   justify-content: center;
   font-family: poppins;
 `;

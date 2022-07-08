@@ -8,9 +8,10 @@ import { AuthContext } from '../AuthState/AuthProvider';
 import { useNavigate } from 'react-router';
 import DashHeader from '../maindash/DashHeader';
 import Header from '../team/Header';
+import LoadingScreen from '../team/LoadingScreen';
 
 const DevEditProfile = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, loading, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const [name, setName] = React.useState(currentUser?.data?.name || '');
@@ -20,7 +21,7 @@ const DevEditProfile = () => {
   const [experience, setExperience] = React.useState(
     currentUser?.data?.experience || ''
   );
-  const [bio, setBio] = React.useState(currentUser?.bio || '');
+  const [bio, setBio] = React.useState(currentUser?.data?.bio || '');
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -66,7 +67,12 @@ const DevEditProfile = () => {
         });
       }
       console.log(res?.data?.data);
-      // localStorage.setItem('smartuser', JSON.stringify(res.data));
+      localStorage.setItem(
+        'smartuser',
+        JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
+      );
+
+      window.location.reload();
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -80,6 +86,8 @@ const DevEditProfile = () => {
   return (
     <Container>
       {/* <DashHeader /> */}
+      {loading ? <LoadingScreen /> : null}
+
       <Header />
       <NavAndPageHolder>
         <DashNav />

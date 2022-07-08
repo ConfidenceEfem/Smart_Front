@@ -50,13 +50,13 @@ const DashNav = () => {
             </IconAndText>
             <Line to={`/dash/postedjob`}></Line>
           </NavAndIcon>
-          <NavAndIcon to={`/dash/appliedjob`}>
+          {/* <NavAndIcon to={`/dash/appliedjob`}>
             <IconAndText>
               <AiTwotoneFile />
               <Text>View All Applied Job</Text>
             </IconAndText>
             <Line to={`/dash/appliedjob`}></Line>
-          </NavAndIcon>
+          </NavAndIcon> */}
           <NavAndIcon to={`/dash/hired`}>
             <IconAndText>
               <AiTwotoneFile />

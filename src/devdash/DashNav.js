@@ -114,6 +114,9 @@ const Container = styled.div`
   height: 100%auto;
   justify-content: flex-end;
   box-shadow: 1px 1px 1px lightgray;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 const Wrapper = styled.div`
   width: 80%;

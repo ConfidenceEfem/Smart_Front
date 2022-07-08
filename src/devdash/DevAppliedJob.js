@@ -7,22 +7,29 @@ import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Header from '../team/Header';
+import DevAppliedCard from './DevAppliedCard';
 
 const DevAppliedJob = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, see, loading, dispatch } = useContext(AuthContext);
   console.log(currentUser);
+  console.log(see);
 
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
+      dispatch({ type: 'DataRequest' });
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
         const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
-        console.log(res?.data?.data);
-        setData(res?.data?.data?.applied);
+        if (res) {
+          dispatch({ type: 'DataSuccess' });
+          console.log(res?.data?.data?.applied);
+          setData(res?.data?.data?.applied);
+        }
       } catch (error) {
+        dispatch({ type: 'DataFailed' });
         Swal.fire({
           icon: 'error',
           title: 'Unable to get Data',
@@ -42,35 +49,7 @@ const DevAppliedJob = () => {
         <DashComp>
           <DashWrapper>
             {data.map((props) => (
-              <SecondCard key={props._id}>
-                <CardWrapper>
-                  {/* <Avatar
-                  size="md"
-                  name={``}
-                  mr={1}
-                  ml={5}
-                /> */}
-                  <AvatarAndName>
-                    <Circle>CE</Circle>
-                    <ClientName>Confidence Efem</ClientName>
-                  </AvatarAndName>
-                  <JobTitle>
-                    <span>Applied For:</span>FrontEnd Engineerer
-                  </JobTitle>
-                  <HiredDate>
-                    Applied: <span>2 days ago</span>
-                  </HiredDate>
-                  <Amount>confidenceefem@gmail.com</Amount>
-
-                  {/* <PendingButton
-                  style={{ backgroundColor: '#3ddabe', color: 'black' }}
-                >
-                  Hired
-                </PendingButton> */}
-
-                  <PendingButton>View CV</PendingButton>
-                </CardWrapper>
-              </SecondCard>
+              <DevAppliedCard props={props} />
             ))}
           </DashWrapper>
         </DashComp>
@@ -80,77 +59,6 @@ const DevAppliedJob = () => {
 };
 
 export default DevAppliedJob;
-
-const CardWrapper = styled.div`
-  width: 97%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const Circle = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 15px;
-`;
-const PendingButton = styled.div`
-  padding: 10px 15px;
-  border-radius: 30px;
-  background: red;
-  font-size: 12px;
-  color: white;
-`;
-const HiredDate = styled.div`
-  display: flex;
-  font-size: 13px;
-  font-weight: 600;
-`;
-const Amount = styled.div`
-  display: flex;
-  font-weight: 600;
-  color: red;
-  font-size: 12px;
-`;
-const JobTitle = styled.div`
-  font-weight: 600;
-  color: blue;
-  display: flex;
-  align-items: center;
-  /* flex: 2; */
-  span {
-    color: black;
-    font-size: 12px;
-    margin-right: 5px;
-  }
-`;
-const ClientName = styled.div`
-  font-weight: 600;
-
-  display: flex;
-  /* flex: 1; */
-`;
-
-const AvatarAndName = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const SecondCard = styled.div`
-  width: 93%;
-  display: flex;
-  margin: 20px 0;
-  align-items: center;
-  background: white;
-  /* margin-left: 20px; */
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  min-height: 80px;
-  height: 100%auto;
-  justify-content: center;
-  border-radius: 5px;
-`;
 
 const DashWrapper = styled.div`
   width: 92%;
