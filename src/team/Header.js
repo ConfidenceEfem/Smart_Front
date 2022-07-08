@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlineBell } from 'react-icons/hi';
 import { IoReorderThreeOutline } from 'react-icons/io5';
@@ -8,8 +8,10 @@ import logo from '../dash/images/logo11.png';
 import img from '../dash/images/avatar.png';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
+import { GiCancel } from 'react-icons/gi';
 
 const Header = () => {
+  const [change, setChange] = useState(true)
   const { currentUser } = useContext(AuthContext);
 
   const [jobData, setJobData] = React.useState([]);
@@ -29,6 +31,10 @@ const Header = () => {
 
   const navigate = useNavigate();
 
+  const Toggle = () =>{
+    setChange(!change)
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -37,10 +43,14 @@ const Header = () => {
             <S>S</S>
             <Logo>mart</Logo>
           </LogoDiv>
-          <Navs>
+          <Navs onClick={Toggle} change={change}>
             <Nav to="/">Home</Nav>
             <Nav to="/jobs">Find jobs</Nav>
             <Nav to="/talent">Hire Talents</Nav>
+            <Nav1>DashBoard</Nav1>
+            <Nav1>Login</Nav1>
+            <But1>LogOut</But1>
+            <But>Register</But>
           </Navs>
         </Navigation>
         {/* <Navigation> */}
@@ -77,15 +87,16 @@ const Header = () => {
           <Btnhold>
             <Btn1 to="/signin">Login</Btn1>
             <Btn2 to="/signup">Register</Btn2>
-            <HiOutlineBell size={'30px'} cursor={'pointer'} />
+            {/* <HiOutlineBell size={'30px'} cursor={'pointer'} /> */}
           </Btnhold>
         )}
 
-        <Icon2>
+        {/* <Icon2>
           <BiUserCircle size={'30px'} cursor={'pointer'} />
-        </Icon2>
-        <Icon>
-          <IoReorderThreeOutline size={'30px'} cursor={'pointer'} />
+        </Icon2> */}
+        <Icon onClick={Toggle}>
+          {change ? <IoReorderThreeOutline size={'30px'} cursor={'pointer'} /> : 
+          <GiCancel size={'30px'} cursor={'pointer'} /> }
         </Icon>
         {/* </Navigation> */}
       </Wrapper>
@@ -200,7 +211,22 @@ const Navs = styled.div`
   /* background: red; */
 
   @media screen and (max-width: 768px) {
-    display: none;
+    font-family: poppins;
+    display:flex;
+    flex-direction:column;
+    position: absolute;
+    height: 80vh;
+    width: 70%;
+    top: 95px;
+    font-weight: 600;
+    justify-content:space-evenly;
+    left: ${({change})=> (change? '-100%' : 0)};
+        background-color: darkblue;
+        color: white;
+        font-family: poppins;
+        border-radius: 0px 10px 10px 0px;
+        transition: all 900ms;
+
   }
 
   /* background: white; */
@@ -214,7 +240,29 @@ const Nav = styled(Link)`
   margin: 0 17px;
   cursor: pointer;
   font-family: poppins;
+
+  @media screen and (max-width:788px){
+      color: white;
+  }
 `;
+
+const Nav1 = styled.div`
+display: none;
+
+@media screen and (max-width: 768px){
+  font-size: 16px;
+  display: flex;
+  font-family: poppins;
+  font-weight: 600;
+  text-decoration: none;
+  /* color: #1967d2; */
+  color: white;
+  margin: 0 17px;
+  cursor: pointer;
+  font-family: poppins;
+}
+
+`
 const LogoDiv = styled.div`
   width: 150px;
   display: flex;
@@ -271,6 +319,58 @@ const Btn2 = styled(NavLink)`
     background: darkblue;
     transition: 350ms;
   }
+`;
+const But = styled.div`
+display: none;
+
+@media screen and (max-width: 768px){
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 15px;
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: bold;
+  font-family: poppins;
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  background: #1967d2;
+  cursor: pointer;
+  :hover {
+    background: darkblue;
+    transition: 350ms;
+  }
+}
+`;
+const But1 = styled.div`
+display: none;
+
+@media screen and (max-width: 768px){
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  font-size: 15px;
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: bold;
+  font-family: poppins;
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  color: white;
+  background: darkorange;
+  cursor: pointer;
+  :hover {
+    background: darkblue;
+    transition: 350ms;
+  }
+}
 `;
 
 const Icon = styled.div`

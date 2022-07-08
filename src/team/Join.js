@@ -24,7 +24,7 @@ const Join1 = styled.div`
   font-size: 30px;
   /* color: blue; */
   margin-bottom: 5px;
-
+font-weight: 600;
   @media screen and (max-width: 768px) {
     font-size: 25px;
   }

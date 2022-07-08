@@ -20,8 +20,6 @@ import Postjob from './team/Postjob';
 import VerifyClient from './team/VerifyClient';
 import DashBoard from './admin/DashBoard';
 import Myprofile from './admin/MyProfile';
-import EditProfile from './admin/EditProfile';
-import PostAJob from './admin/PostAJob';
 import ViewJobs from './admin/ViewJobs';
 import AppliedJobs from './admin/AppliedJobs';
 import DashNav from './maindash/DashNav';
