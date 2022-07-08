@@ -30,13 +30,16 @@ const Hero3 = () => {
             </TextIcon>
             <TextIcon>
               <Icon />
-              <Write>Capitalize on low hanging fruit to identify</Write>
+              <Write>Capitalize on low hanging products to identify</Write>
             </TextIcon>
             <TextIcon>
               <Icon />
-              <Write>But I must explain to you how all this</Write>
+              <Write>But I must explain to you how all this Work</Write>
             </TextIcon>
+            <ButHold>
             <Btn to="/signup">Get Started</Btn>
+            </ButHold>
+           
           </TextHold>
         </Right>
       </Wrapper>
@@ -45,25 +48,39 @@ const Hero3 = () => {
 };
 
 export default Hero3;
+const ButHold = styled.div`
+
+@media screen and (max-width: 1024px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+`
 
 const Left = styled.div`
-  height: 100%;
+  height: 650px;
   width: 650px;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: white; */
+  /* background: red; */
   img {
     object-fit: center;
     width: 100%;
     height: 95%;
     border-radius: 9px;
   }
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
   @media screen and (max-width: 1024px) {
-    display: none;
+    width: 90%;
+  }
+  @media screen and (max-width: 430px) {
+    height: 450px;
+    width: 95%;
+  }
+  @media screen and (max-width: 350px) {
+    height: 400px;
+   
   }
 `;
 const Btn = styled(Link)`
@@ -80,6 +97,11 @@ const Btn = styled(Link)`
   border-radius: 4px;
   font-size: 16px;
   font-family: poppins;
+
+  @media screen and (max-width: 430px) {
+    height: 50px;
+    width:150px;
+  }
 `;
 const Write = styled.div`
   font-size: 18.5px;
@@ -104,6 +126,8 @@ const TextIcon = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 19px;
+
+ 
 `;
 
 const SmallText = styled.div`
@@ -111,8 +135,13 @@ const SmallText = styled.div`
   font-family: poppins;
   color: gray;
   margin-bottom: 20px;
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     font-size: 17px;
+  } */
+  @media screen and (max-width: 430px) {
+     font-size: 16px; 
+    /* width: 80%; */
+    /* text-align: center; */
   }
 `;
 const BigText = styled.div`
@@ -120,19 +149,20 @@ const BigText = styled.div`
   font-family: poppins;
   font-weight: 600;
   margin-bottom: 20px;
-  @media screen and (max-width: 768px) {
-    font-size: 30px;
+  @media screen and (max-width: 1024px) {
+    font-size: 36px;
+    text-align: center;
   }
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 380px) {
     font-size: 25px;
   }
   @media screen and (max-width: 320px) {
-    font-size: 22px;
+    font-size: 21px;
   }
 `;
 const TextHold = styled.div`
   width: 620px;
-  height: 450px;
+  height:auto;
   /* background: blue; */
   display: flex;
   justify-content: flex-start;
@@ -143,7 +173,7 @@ const TextHold = styled.div`
   }
 `;
 const Right = styled.div`
-  height: 100%;
+  height: auto;
   width: 700px;
   /* background: red; */
   display: flex;
@@ -155,23 +185,27 @@ const Right = styled.div`
     /* height: 90vh; */
   }
   @media screen and (max-width: 1024px) {
-    width: 100%;
-    justify-content: flex-start;
+   display: flex;
+   justify-content: center;
+   align-items: center;
   }
 `;
 const Wrapper = styled.div`
   width: 90%;
-  height: 100vh;
+  height: auto;
   display: flex;
   /* background: lightsalmon; */
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
+    justify-content: center;
+    
   }
 `;
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;

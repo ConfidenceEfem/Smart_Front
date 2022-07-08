@@ -9,7 +9,7 @@ const Foto = () => {
       <Con>
         <Wrap>
           <At>
-            @ copyright 2022 <span>S</span>mart all right reserved
+            @ copyright 2022 <span>S</span>mart all right reserved CodeLab
           </At>
           <IconHold>
             <F>
