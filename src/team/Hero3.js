@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { AiFillHeart } from 'react-icons/ai';
-import { GrStar } from 'react-icons/gr';
-import img from '../dash/images/background.jpg';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { AiFillHeart } from "react-icons/ai";
+import { GrStar } from "react-icons/gr";
+import img from "../dash/images/background.jpg";
+import { Link } from "react-router-dom";
 
 const Hero3 = () => {
   return (
@@ -37,9 +37,8 @@ const Hero3 = () => {
               <Write>But I must explain to you how all this Work</Write>
             </TextIcon>
             <ButHold>
-            <Btn to="/signup">Get Started</Btn>
+              <Btn to="/signup">Get Started</Btn>
             </ButHold>
-           
           </TextHold>
         </Right>
       </Wrapper>
@@ -49,14 +48,16 @@ const Hero3 = () => {
 
 export default Hero3;
 const ButHold = styled.div`
-
-@media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1024px) {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 20px;
   }
-`
+  @media screen and (max-width: 425px) {
+    height: auto;
+  }
+`;
 
 const Left = styled.div`
   height: 650px;
@@ -80,7 +81,6 @@ const Left = styled.div`
   }
   @media screen and (max-width: 350px) {
     height: 400px;
-   
   }
 `;
 const Btn = styled(Link)`
@@ -100,7 +100,7 @@ const Btn = styled(Link)`
 
   @media screen and (max-width: 430px) {
     height: 50px;
-    width:150px;
+    width: 150px;
   }
 `;
 const Write = styled.div`
@@ -126,8 +126,6 @@ const TextIcon = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 19px;
-
- 
 `;
 
 const SmallText = styled.div`
@@ -139,7 +137,7 @@ const SmallText = styled.div`
     font-size: 17px;
   } */
   @media screen and (max-width: 430px) {
-     font-size: 16px; 
+    font-size: 16px;
     /* width: 80%; */
     /* text-align: center; */
   }
@@ -153,6 +151,9 @@ const BigText = styled.div`
     font-size: 36px;
     text-align: center;
   }
+  @media screen and (max-width: 425px) {
+    font-size: 25px;
+  }
   @media screen and (max-width: 380px) {
     font-size: 25px;
   }
@@ -162,7 +163,7 @@ const BigText = styled.div`
 `;
 const TextHold = styled.div`
   width: 620px;
-  height:auto;
+  height: auto;
   /* background: blue; */
   display: flex;
   justify-content: flex-start;
@@ -185,9 +186,12 @@ const Right = styled.div`
     /* height: 90vh; */
   }
   @media screen and (max-width: 1024px) {
-   display: flex;
-   justify-content: center;
-   align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  @media screen and (max-width: 425px) {
+    height: auto;
   }
 `;
 const Wrapper = styled.div`
@@ -200,7 +204,9 @@ const Wrapper = styled.div`
   align-items: center;
   @media screen and (max-width: 1024px) {
     justify-content: center;
-    
+  }
+  @media screen and (max-width: 375px) {
+    height: auto;
   }
 `;
 const Container = styled.div`
@@ -212,6 +218,9 @@ const Container = styled.div`
   align-items: center;
   /* background-color: brown; */
   @media screen and (max-width: 768px) {
+    height: auto;
+  }
+  @media screen and (max-width: 375px) {
     height: auto;
   }
 `;

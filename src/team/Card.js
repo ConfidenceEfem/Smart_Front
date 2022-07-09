@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
-import { MdOutlineWork } from 'react-icons/md';
-import { BiCurrentLocation } from 'react-icons/bi';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import { AuthContext } from '../AuthState/AuthProvider';
-import { useSelector } from 'react-redux';
+import React, { useContext } from "react";
+import styled from "styled-components";
+import { FaUserCircle, FaMoneyBillAlt } from "react-icons/fa";
+import { MdOutlineWork } from "react-icons/md";
+import { BiCurrentLocation } from "react-icons/bi";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { AuthContext } from "../AuthState/AuthProvider";
+import { useSelector } from "react-redux";
 
 const Card = () => {
   const { currentUser } = useContext(AuthContext);
@@ -19,8 +19,8 @@ const Card = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const url = 'http://localhost:2023';
-      const mainUrl = 'https://smart-2022.herokuapp.com';
+      const url = "http://localhost:2023";
+      const mainUrl = "https://smart-2022.herokuapp.com";
       await axios
         .get(`${mainUrl}/alljobs`)
         .then((result) => {
@@ -37,7 +37,7 @@ const Card = () => {
 
   return (
     <Container>
-      {' '}
+      {" "}
       <ContWrapper>
         <TextHolder>
           <TextHeading>Popular Job Categories</TextHeading>
@@ -101,6 +101,10 @@ const ContWrapper = styled.div`
 const TextHeading = styled.div`
   font-size: 30px;
   font-weight: 600;
+  @media screen and (max-width: 375px) {
+    text-align: center;
+    font-size: 25px;
+  }
 `;
 const TextHolder = styled.div`
   display: flex;
@@ -271,6 +275,7 @@ const Carder = styled.div`
   align-items: center;
   cursor: pointer;
   transition: all 350ms;
+  flex-wrap: wrap;
   cursor: pointer;
   :hover {
     transform: scale(1.02);
@@ -285,7 +290,8 @@ const Carder = styled.div`
   }
   @media screen and (max-width: 425px) {
     width: 500px;
-    height: 150px;
+    height: 170px;
+    padding: 8px 0;
   }
   @media screen and (max-width: 375px) {
     width: 365px;

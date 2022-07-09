@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { AiFillStar } from 'react-icons/ai';
-import img from '../dash/images/avatar.png';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContext } from '../AuthState/AuthProvider';
-import ClientDetailComp from './ClientDetail';
-import DevCard from './DevCard';
+import React, { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { AiFillStar } from "react-icons/ai";
+import img from "../dash/images/avatar.png";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../AuthState/AuthProvider";
+import ClientDetailComp from "./ClientDetail";
+import DevCard from "./DevCard";
 const Hero5 = () => {
   const [data, setData] = useState([]);
 
@@ -15,8 +15,8 @@ const Hero5 = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const url = 'http://localhost:2023';
-    const mainUrl = 'https://smart-2022.herokuapp.com';
+    const url = "http://localhost:2023";
+    const mainUrl = "https://smart-2022.herokuapp.com";
     const res = await axios.get(`${mainUrl}/allusers`);
     setData(res.data.data);
   };
@@ -61,6 +61,13 @@ const HeadText = styled.div`
   @media screen and (max-width: 768px) {
     justify-content: center;
   }
+  @media screen and (max-width: 425px) {
+    margin-top: 10px;
+    text-align: center;
+  }
+  @media screen and (max-width: 375px) {
+    text-align: center;
+  }
 `;
 const Wrapper = styled.div`
   width: 90%;
@@ -68,6 +75,10 @@ const Wrapper = styled.div`
   /* background: aquamarine; */
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 375px) {
+    height: auto;
+    margin-top: 70px;
+  }
 `;
 const Container = styled.div`
   width: 100%;
@@ -77,4 +88,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   /* background-color: aquamarine; */
+  @media screen and (max-width: 425px) {
+    height: auto;
+    margin-top: 10px;
+  }
 `;

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router';
-import styled from 'styled-components';
-import img from '../dash/images/avatar.png';
-import ClientDetailComp from './ClientDetail';
+import React, { useContext } from "react";
+import { Navigate, useNavigate } from "react-router";
+import styled from "styled-components";
+import img from "../dash/images/avatar.png";
+import ClientDetailComp from "./ClientDetail";
 
 // import { AuthContext } from '../AuthState/AuthProvider';
 
@@ -19,7 +19,7 @@ const DevCard = ({ props }) => {
         navigate(`/myprofile/${props._id}`);
       }}
     >
-      {props?.image === '' ? (
+      {props?.image === "" ? (
         <Image src={img} alt="image" />
       ) : (
         <Image src={props?.image} alt="image" />
@@ -117,5 +117,14 @@ const Card = styled.div`
   top: 0;
   :hover {
     transform: scale(1.01);
+  }
+  @media screen and (max-width: 425px) {
+    margin-top: 30px;
+  }
+  @media screen and (max-width: 375px) {
+    height: auto;
+  }
+  @media screen and (max-width: 320px) {
+    height: auto;
   }
 `;

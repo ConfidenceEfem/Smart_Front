@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Join = () => {
   return (
@@ -24,7 +24,7 @@ const Join1 = styled.div`
   font-size: 30px;
   /* color: blue; */
   margin-bottom: 5px;
-font-weight: 600;
+  font-weight: 600;
   @media screen and (max-width: 768px) {
     font-size: 25px;
   }
@@ -38,8 +38,8 @@ font-weight: 600;
   }
 `;
 const We = styled.div`
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-weight: 600;
   font-size: 15px;
   margin-bottom: 50px;

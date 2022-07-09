@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { GrSearch } from 'react-icons/gr';
-import img from '../dash/images/profile.png';
-import { useNavigate } from 'react-router';
-import { AuthContext } from '../AuthState/AuthProvider';
+import React, { useContext } from "react";
+import styled from "styled-components";
+import { GrSearch } from "react-icons/gr";
+import img from "../dash/images/profile.png";
+import { useNavigate } from "react-router";
+import { AuthContext } from "../AuthState/AuthProvider";
 
 const Hero = () => {
   const { currentUser } = useContext(AuthContext);
@@ -19,13 +19,13 @@ const Hero = () => {
                 <br />
                 <span
                   style={{
-                    color: 'orange',
+                    color: "orange",
                     // textDecoration: 'underline',
                     // textDecorationColor: 'blue',
                   }}
                 >
                   Smart
-                </span>{' '}
+                </span>{" "}
                 Developers
               </BigText>
               <SmallText>
@@ -158,6 +158,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: flex-end;
   background-color: #363e51;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 `;
 const Wrapper = styled.div`
   width: 85%;
@@ -175,13 +179,16 @@ const Wrapper = styled.div`
   }
 `;
 const Left = styled.div`
-  width: 50%;
+  width: 47%;
   height: 100%;
   /* background: blue; */
   /* background-color: grey; */
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 const Right = styled.div`
   /* width: 500px; */
@@ -203,6 +210,11 @@ const Text = styled.div`
   align-items: flex-start;
   flex-direction: column;
   /* margin-top: 10px; */
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 const BigText = styled.div`
   font-size: 60px;
@@ -211,6 +223,19 @@ const BigText = styled.div`
   font-weight: 700;
   line-height: 1.2;
   color: white;
+  @media screen and (max-width: 768px) {
+    font-size: 50px;
+    text-align: center;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 40px;
+  }
+  @media screen and (max-width: 375px) {
+    font-size: 35px;
+  }
+  @media screen and (max-width: 320px) {
+    font-size: 30px;
+  }
 `;
 const SmallText = styled.div`
   font-size: 20px;
@@ -221,7 +246,12 @@ const SmallText = styled.div`
   flex-direction: column;
 
   @media screen and (max-width: 768px) {
+    font-size: 17px;
+    text-align: center;
+  }
+  @media screen and (max-width: 320px) {
     font-size: 15px;
+    text-align: center;
   }
 `;
 const Div = styled.div`
