@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
-import styled from 'styled-components';
-import { HiOutlineBell } from 'react-icons/hi';
-import { IoReorderThreeOutline } from 'react-icons/io5';
-import { BiUserCircle } from 'react-icons/bi';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import logo from '../dash/images/logo11.png';
-import img from '../dash/images/avatar.png';
-import { AuthContext } from '../AuthState/AuthProvider';
-import axios from 'axios';
-import { GiCancel } from 'react-icons/gi';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../reduxpersist/actions';
+import React, { useContext, useState } from "react";
+import styled from "styled-components";
+import { HiOutlineBell } from "react-icons/hi";
+import { IoReorderThreeOutline } from "react-icons/io5";
+import { BiUserCircle } from "react-icons/bi";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import logo from "../dash/images/logo11.png";
+import img from "../dash/images/avatar.png";
+import { AuthContext } from "../AuthState/AuthProvider";
+import axios from "axios";
+import { GiCancel } from "react-icons/gi";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../reduxpersist/actions";
 
 const Header = () => {
   const [change, setChange] = useState(true);
@@ -22,8 +22,8 @@ const Header = () => {
   const [jobData, setJobData] = React.useState([]);
 
   const fetchData = async () => {
-    const url = 'http://localhost:2023';
-    const mainUrl = 'https://smart-2022.herokuapp.com';
+    const url = "http://localhost:2023";
+    const mainUrl = "https://smart-2022.herokuapp.com";
     const res = await axios.get(`${mainUrl}/user/${selector?.data?._id}`);
     console.log(res);
     setJobData(res.data.data);
@@ -45,8 +45,9 @@ const Header = () => {
       <Wrapper>
         <Navigation>
           <LogoDiv>
-            <S>S</S>
-            <Logo>mart</Logo>
+            {/* <S>S</S>
+            <Logo>mart</Logo> */}
+            <Img src="mylogo.png" alt="loading" />
           </LogoDiv>
           <Navs onClick={Toggle} change={change}>
             <Nav to="/">Home</Nav>
@@ -56,9 +57,9 @@ const Header = () => {
               <Nav1
                 onClick={() => {
                   if (selector?.data?.isClient) {
-                    navigate('/dash/overview');
+                    navigate("/dash/overview");
                   } else {
-                    navigate('/dev/main');
+                    navigate("/dev/main");
                   }
                 }}
               >
@@ -74,7 +75,7 @@ const Header = () => {
                   dispatch(logout());
                   // localStorage.removeItem('smartuser');
                   // window.location.reload();
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 LogOut
@@ -84,7 +85,7 @@ const Header = () => {
             {!selector ? (
               <But
                 onClick={() => {
-                  navigate('/signup');
+                  navigate("/signup");
                 }}
               >
                 Register
@@ -95,9 +96,9 @@ const Header = () => {
         {/* <Navigation> */}
         {selector?.token ? (
           <Btnhold>
-            {' '}
+            {" "}
             <Name>{jobData?.name}</Name>
-            {jobData?.image === '' ? (
+            {jobData?.image === "" ? (
               <Avatar src={img} alt="avatar" />
             ) : (
               <Avatar src={jobData?.image} alt="avatar" />
@@ -105,9 +106,9 @@ const Header = () => {
             <DashButton
               onClick={() => {
                 if (selector?.data?.isClient) {
-                  navigate('/dash/overview');
+                  navigate("/dash/overview");
                 } else {
-                  navigate('/dev/main');
+                  navigate("/dev/main");
                 }
               }}
             >
@@ -116,9 +117,9 @@ const Header = () => {
             <Logout
               onClick={() => {
                 dispatch(logout());
-                localStorage.removeItem('smartuser');
+                localStorage.removeItem("smartuser");
                 // window.location.reload();
-                navigate('/');
+                navigate("/");
               }}
             >
               Logout
@@ -137,9 +138,9 @@ const Header = () => {
         </Icon2> */}
         <Icon onClick={Toggle}>
           {change ? (
-            <IoReorderThreeOutline size={'30px'} cursor={'pointer'} />
+            <IoReorderThreeOutline size={"30px"} cursor={"pointer"} />
           ) : (
-            <GiCancel size={'30px'} cursor={'pointer'} />
+            <GiCancel size={"30px"} cursor={"pointer"} />
           )}
         </Icon>
         {/* </Navigation> */}
@@ -149,6 +150,10 @@ const Header = () => {
 };
 export default Header;
 
+const Img = styled.img`
+  width: 130px;
+  height: 80px;
+`;
 const Avatar = styled.img`
   width: 50px;
   height: 50px;
@@ -264,7 +269,7 @@ const Navs = styled.div`
     top: 95px;
     font-weight: 600;
     justify-content: space-evenly;
-    left: ${({ change }) => (change ? '-100%' : 0)};
+    left: ${({ change }) => (change ? "-100%" : 0)};
     background-color: darkblue;
     color: white;
     font-family: poppins;
