@@ -7,8 +7,10 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../AuthState/AuthProvider';
 import ApplyClientProfile from './ApplyClientProfile';
 import JobClientProfile from './JobClientProfile';
+import SmallDetails from './SmallDetails';
 
 const DevAppliedCard = ({ props }) => {
+  // console.log(props);
   const [data, setData] = React.useState([]);
   const [mainData, setMainData] = React.useState([]);
 
@@ -17,7 +19,7 @@ const DevAppliedCard = ({ props }) => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/oneapply/${props}`);
+        const res = await axios.get(`${mainUrl}/oneapply/${props}`);
         console.log(res?.data?.data);
 
         setData(res?.data?.data);
@@ -41,9 +43,12 @@ const DevAppliedCard = ({ props }) => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/clientonejob/${data?.job}`);
-        console.log(res?.data?.data);
-        setMainData(res?.data?.data);
+        if (data) {
+          const res = await axios.get(`${mainUrl}/clientonejob/${data?.job}`);
+          console.log(res?.data?.data);
+          setMainData(res?.data?.data);
+        }
+
         // console.log(res?.data?.data?.apply);
       } catch (error) {
         // Swal.fire({
@@ -64,11 +69,12 @@ const DevAppliedCard = ({ props }) => {
           <Circle>CE</Circle>
           <ClientName>{data?.name}</ClientName>
         </AvatarAndName> */}
-        <ApplyClientProfile client={data?.job} />
-        <JobTitle>
+        <ApplyClientProfile client={mainData?.user} />
+        {/* <JobTitle>
           <span>Applied For:</span>
           {mainData?.jobTitle}
-        </JobTitle>
+        </JobTitle> */}
+        <SmallDetails job id={data?.job} />
         <HiredDate>
           Applied: <span>{moment(data?.createdAt).fromNow()}</span>
         </HiredDate>
@@ -78,7 +84,10 @@ const DevAppliedCard = ({ props }) => {
                 >
                   Hired
                 </PendingButton> */}
-        <PendingButton>N{mainData?.cost}</PendingButton>
+        <PendingButton>
+          N{mainData?.cost}
+          {/* {mainData?.user} */}
+        </PendingButton>
       </CardWrapper>
     </SecondCard>
   );
@@ -131,6 +140,7 @@ const SecondCard = styled.div`
   display: flex;
   margin: 20px 0;
   align-items: center;
+  font-family: poppins;
   background: white;
   /* margin-left: 20px; */
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

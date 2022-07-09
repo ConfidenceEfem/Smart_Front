@@ -14,11 +14,14 @@ import Swal from 'sweetalert2';
 import Header from '../team/Header';
 import DevHiringCard from './DevHiringCard';
 import LoadingScreen from '../team/LoadingScreen';
+import { useSelector } from 'react-redux';
 
 const DevMainScreen = () => {
   // console.log(user);
   const { currentUser, see, loading, dispatch } = useContext(AuthContext);
-  console.log(currentUser);
+  // console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const [data, setData] = React.useState([]);
 
@@ -30,7 +33,7 @@ const DevMainScreen = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         if (res) {
           dispatch({ type: 'DataSuccess' });
           console.log(res?.data?.data);
@@ -56,8 +59,8 @@ const DevMainScreen = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
-        console.log(res?.data?.data?.hire);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
+        // console.log(res?.data?.data?.hire);
         setMainData(res?.data?.data?.hire);
       } catch (error) {
         Swal.fire({

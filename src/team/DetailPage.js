@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { BiCurrentLocation } from "react-icons/bi";
-import { FaUserCircle, FaMoneyBillAlt } from "react-icons/fa";
-import { MdOutlineWork } from "react-icons/md";
+import React from 'react';
+import styled from 'styled-components';
+import { BiCurrentLocation } from 'react-icons/bi';
+import { FaUserCircle, FaMoneyBillAlt } from 'react-icons/fa';
+import { MdOutlineWork } from 'react-icons/md';
 
 const DetailPage = () => {
   return (
@@ -63,7 +63,7 @@ const DetailPage = () => {
             <JobIcon2 />
             <JobTextDetail>
               <Detail1>Offered Salary</Detail1>
-              <Detail2>$150 / week2</Detail2>
+              <Detail2>$150 / week</Detail2>
             </JobTextDetail>
           </JobIconpack>
           <JobIconpack>

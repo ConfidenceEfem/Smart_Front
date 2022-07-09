@@ -7,11 +7,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { AuthContext } from '../AuthState/AuthProvider';
+import { useSelector } from 'react-redux';
+import img from '../dash/images/apply.jpg';
+import LoadingScreen from '../team/LoadingScreen';
 
 const Form = () => {
   const { id } = useParams();
-  const { currentUser, see } = React.useContext(AuthContext);
-  console.log(currentUser);
+  const { currentUser, see, loading, dispatch } = React.useContext(AuthContext);
+  // console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const navigate = useNavigate();
   console.log(see);
@@ -33,22 +38,21 @@ const Form = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const submit = handleSubmit(async (data) => {
+    dispatch({ type: 'DataRequest' });
     const { name, email, job, salary, hours, description } = data;
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
     try {
-      const res = await axios.post(
-        `${url}/hire/${currentUser?.data?._id}/${id}`,
-        {
-          clientName: name,
-          email,
-          details: description,
-          salary,
-          jobTitle: job,
-          workingHours: hours,
-        }
-      );
+      const res = await axios.post(`${mainUrl}/hire/${selector?._id}/${id}`, {
+        clientName: name,
+        email,
+        details: description,
+        salary,
+        jobTitle: job,
+        workingHours: hours,
+      });
       if (res) {
+        dispatch({ type: 'DataSuccess' });
         Swal.fire({
           icon: 'success',
           title: 'Hire Developer Successfully',
@@ -59,6 +63,7 @@ const Form = () => {
         });
       }
     } catch (error) {
+      dispatch({ type: 'DataFailed' });
       Swal.fire({
         icon: 'error',
         title: 'Failed to Hire Developer',
@@ -72,6 +77,8 @@ const Form = () => {
 
   return (
     <Container>
+      {loading ? <LoadingScreen /> : null}
+
       <Card>
         <HeadHold>
           <BoldTxt>HIRE US</BoldTxt>
@@ -153,7 +160,8 @@ const TextArea = styled.textarea`
   border: 0;
   outline: none;
   border-radius: 5px;
-  padding: 0 10px;
+  font-family: poppins;
+  padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   @media screen and (max-width: 425px) {
@@ -164,6 +172,7 @@ const TextArea = styled.textarea`
 const Sec = styled.div`
   input {
     width: 455px;
+    font-family: poppins;
     height: 35px;
     padding: 0 10px;
     border: 0.5px solid lightgrey;
@@ -194,6 +203,7 @@ const FirstName = styled.div`
   margin: 0 9px;
 `;
 const Fir = styled.div`
+  font-family: poppins;
   @media screen and (max-width: 425px) {
     margin: 5px 0;
   }
@@ -201,6 +211,7 @@ const Fir = styled.div`
     width: 210px;
     height: 35px;
     padding: 0 10px;
+    font-family: poppins;
     border: 0.5px solid lightgrey;
     outline: none;
     margin: 0 9px;
@@ -265,12 +276,15 @@ const BoldTxt = styled.div`
 const HeadHold = styled.div`
   width: 100%;
   height: 180px;
-  background: lightgrey;
+  background-image: url(${img});
   display: flex;
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  background-image: url('dev.jpg');
+
+  background-size: cover;
+  /* background-color: rgb(0, 0, 0, 0.5); */
+  /* background-image: url('dev.jpg'); */
   background-size: cover;
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -307,6 +321,7 @@ const Container = styled.div`
   height: 100%;
   min-height: 100vh;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   font-family: poppins;

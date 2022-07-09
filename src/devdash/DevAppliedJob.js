@@ -8,6 +8,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Header from '../team/Header';
 import DevAppliedCard from './DevAppliedCard';
+import { useSelector } from 'react-redux';
+import LoadingScreen from '../team/LoadingScreen';
 
 const DevAppliedJob = () => {
   const { currentUser, see, loading, dispatch } = useContext(AuthContext);
@@ -16,13 +18,15 @@ const DevAppliedJob = () => {
 
   const [data, setData] = React.useState([]);
 
+  const selector = useSelector((state) => state.persistedReducer.current.data);
+
   React.useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'DataRequest' });
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         if (res) {
           dispatch({ type: 'DataSuccess' });
           console.log(res?.data?.data?.applied);
@@ -43,12 +47,13 @@ const DevAppliedJob = () => {
 
   return (
     <Container>
+      {loading ? <LoadingScreen /> : null}
       <Header />
       <NavAndPageHolder>
         <DashNav />
         <DashComp>
           <DashWrapper>
-            {data.map((props) => (
+            {data?.map((props) => (
               <DevAppliedCard props={props} />
             ))}
           </DashWrapper>
@@ -84,6 +89,7 @@ const NavAndPageHolder = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100vw;
+  position: relative;
   flex-direction: column;
   /* align-items: flex-end; */
 

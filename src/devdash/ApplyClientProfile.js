@@ -1,32 +1,33 @@
 import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
+import img from '../dash/images/avatar.png';
 
 const ApplyClientProfile = ({ client }) => {
   const [data, setData] = React.useState([]);
 
   const [mainData, setMainData] = React.useState([]);
 
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     const url = 'http://localhost:2023';
+  //     const mainUrl = 'https://smart-2022.herokuapp.com';
+  //     try {
+  //       const res = await axios.get(`${url}/clientonejob/${client}`);
+  //       console.log(res?.data?.data);
+  //       setData(res?.data?.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   React.useEffect(() => {
     const fetchData = async () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/clientonejob/${client}`);
-        console.log(res?.data?.data);
-        setData(res?.data?.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const url = 'http://localhost:2023';
-      const mainUrl = 'https://smart-2022.herokuapp.com';
-      try {
-        const res = await axios.get(`${url}/user/${data?.user}`);
+        const res = await axios.get(`${mainUrl}/user/${client}`);
         console.log(res?.data?.data);
         setMainData(res?.data?.data);
       } catch (error) {
@@ -41,12 +42,12 @@ const ApplyClientProfile = ({ client }) => {
   return (
     <AvatarAndName>
       {mainData?.image === '' ? (
-        <Circle>CE</Circle>
+        <Avatar src={img} alt="image" />
       ) : (
         <Avatar src={mainData?.image} alt="image" />
       )}
 
-      <ClientName>{mainData?.name}</ClientName>
+      <ClientName>{mainData?.name} </ClientName>
     </AvatarAndName>
   );
 };

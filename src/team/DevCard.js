@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import img from '../dash/images/avatar.png';
 import ClientDetailComp from './ClientDetail';
 
-import { AuthContext } from '../AuthState/AuthProvider';
+// import { AuthContext } from '../AuthState/AuthProvider';
 
 const DevCard = ({ props }) => {
   console.log(props);
-  const { currentUser } = useContext(AuthContext);
+
+  // const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 

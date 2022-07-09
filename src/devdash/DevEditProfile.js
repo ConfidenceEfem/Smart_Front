@@ -9,19 +9,43 @@ import { useNavigate } from 'react-router';
 import DashHeader from '../maindash/DashHeader';
 import Header from '../team/Header';
 import LoadingScreen from '../team/LoadingScreen';
+import { useSelector, useDispatch } from 'react-redux';
+import { user } from '../reduxpersist/actions';
 
 const DevEditProfile = () => {
   const { currentUser, loading, dispatch } = useContext(AuthContext);
 
+  const dispatchEdit = useDispatch();
+
+  const selector = useSelector((state) => state.persistedReducer.current);
+  console.log(selector?.token);
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${mainUrl}/user/${selector?.data?._id}`);
+        if (res) {
+          console.log(res?.data?.data);
+          setData(res?.data?.data);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
-  const [name, setName] = React.useState(currentUser?.data?.name || '');
-  const [image, setImage] = React.useState(currentUser?.data?.image || '');
+  const [name, setName] = React.useState('');
+  const [image, setImage] = React.useState('');
   const [imageLink, setImageLink] = React.useState('');
-  const [stack, setStack] = React.useState(currentUser?.data?.stack || '');
+  const [stack, setStack] = React.useState('');
   const [experience, setExperience] = React.useState(
-    currentUser?.data?.experience || ''
+    selector?.data?.experience || ''
   );
-  const [bio, setBio] = React.useState(currentUser?.data?.bio || '');
+  const [bio, setBio] = React.useState('');
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -33,6 +57,7 @@ const DevEditProfile = () => {
   const onSubmitForm = async () => {
     console.log(name, stack, experience, bio);
 
+    dispatch({ type: 'DataRequest' });
     try {
       const config = {
         headers: {
@@ -51,29 +76,34 @@ const DevEditProfile = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
 
-      const res = await axios.put(
-        `${url}/user/${currentUser?.data?._id}`,
-        formData,
-        config
-      );
+      const res = await axios.put(`${mainUrl}/user/${selector?.data?._id}`, {
+        name: name,
+        stack,
+        experience,
+        bio,
+      });
       if (res) {
+        dispatch({ type: 'DataSuccess' });
         Swal.fire({
           icon: 'success',
           title: 'Developer Profile Updated Successfully',
           timer: 2500,
           showConfirmButton: true,
         }).then(() => {
-          // navigate(`/dev/main`);
+          navigate(`/dev/main`);
         });
       }
-      console.log(res?.data?.data);
-      localStorage.setItem(
-        'smartuser',
-        JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
-      );
 
-      window.location.reload();
+      dispatchEdit(user({ data: res?.data?.data, token: selector?.token }));
+      // console.log(res?.data?.data);
+      // localStorage.setItem(
+      //   'smartuser',
+      //   JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
+      // );
+
+      // window.location.reload();
     } catch (error) {
+      dispatch({ type: 'DataFailed' });
       Swal.fire({
         icon: 'error',
         title: 'Failed to edit profile',
@@ -94,8 +124,8 @@ const DevEditProfile = () => {
         <DashComp>
           <DashWrapper>
             <Form>
-              <Title>Edit Profile</Title>
-              {imageLink === '' ? (
+              <Title>Edit Profile </Title>
+              {/* {imageLink === '' ? (
                 <Circle htmlFor="pix">
                   <AiFillCamera />
                 </Circle>
@@ -108,14 +138,14 @@ const DevEditProfile = () => {
                 style={{ display: 'none' }}
                 id="pix"
                 onChange={uploadImage}
-              />
+              /> */}
               <InputHolder>
                 <Label>First Name</Label>
                 <Input
                   placeholder="John "
-                  value={name}
+                  defaultValue={data?.name}
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName(e.target.defaultValue);
                   }}
                 />
               </InputHolder>
@@ -124,7 +154,7 @@ const DevEditProfile = () => {
                 <Label>stack</Label>
                 <Input
                   placeholder="Frontend Engineerer"
-                  value={stack}
+                  defaultValue={data?.stack}
                   onChange={(e) => {
                     setStack(e.target.value);
                   }}
@@ -134,7 +164,7 @@ const DevEditProfile = () => {
                 <Label>Experience</Label>
                 <Input
                   placeholder="2 years"
-                  value={experience}
+                  defaultValue={data?.experience}
                   onChange={(e) => {
                     setExperience(e.target.value);
                   }}
@@ -144,7 +174,7 @@ const DevEditProfile = () => {
                 <Label>Bio</Label>
                 <TextArea
                   placeholder="Short bio"
-                  value={bio}
+                  defaultValue={data?.bio}
                   onChange={(e) => {
                     setBio(e.target.value);
                   }}
@@ -170,15 +200,15 @@ export default DevEditProfile;
 const TextArea = styled.textarea`
   padding: 10px;
   font-size: 14px;
+  color: black;
   font-weight: 500;
   width: 95%;
   height: 50px;
-  border: none;
+  border: 1px solid gray;
   outline: none;
-  background: rgb(0, 0, 255, 0.7);
-  color: white;
+  font-family: poppins;
   ::placeholder {
-    color: white;
+    color: black;
   }
   :focus {
     border: 2px solid blue;
@@ -233,13 +263,15 @@ const Input = styled.input`
   padding: 10px;
   font-size: 14px;
   font-weight: 500;
+  border-radius: 4px;
   width: 95%;
-  border: none;
+  color: black;
+  font-family: poppins;
+  border: 1px solid gray;
   outline: none;
-  background: rgb(0, 0, 255, 0.7);
-  color: white;
+
   ::placeholder {
-    color: white;
+    color: black;
   }
   :focus {
     border: 2px solid blue;
@@ -256,8 +288,10 @@ const Label = styled.div`
 const InputHolder = styled.div`
   display: flex;
   flex-direction: column;
+  color: black;
   align-items: center;
   width: 100%;
+  color: black;
   margin-bottom: 10px;
 `;
 const Form = styled.div`
@@ -300,4 +334,5 @@ const Container = styled.div`
   /* min-height: 100vh; */
   justify-content: space-between;
   height: 100%;
+  font-family: poppins;
 `;

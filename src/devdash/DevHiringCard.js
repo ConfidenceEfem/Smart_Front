@@ -17,7 +17,7 @@ const DevHiringCard = ({ props }) => {
     const mainUrl = 'https://smart-2022.herokuapp.com';
     try {
       const res = await axios.patch(
-        `${url}/hireupdate/${id}/${clientid}/${devid}`
+        `${mainUrl}/hireupdate/${id}/${clientid}/${devid}`
       );
       if (res) {
         Swal.fire({

@@ -9,10 +9,13 @@ import moment from 'moment';
 import JobDevProfile from './JobDevProfile';
 import Header from '../team/Header';
 import HiredCard from './HiredCard';
+import { useSelector } from 'react-redux';
 
 const AllHiredDeveloper = () => {
   const { currentUser } = useContext(AuthContext);
   console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const [data, setData] = React.useState([]);
 
@@ -21,7 +24,7 @@ const AllHiredDeveloper = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         console.log(res?.data?.data?.hiredDevelopers);
         setData(res?.data?.data?.hiredDevelopers);
       } catch (error) {
@@ -151,7 +154,8 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
+  font-family: poppins;
   flex-direction: column;
   /* align-items: flex-end; */
 

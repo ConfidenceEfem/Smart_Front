@@ -8,13 +8,18 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import Header from './Header';
-import axios from 'axios';
+import axios, { useContext } from 'axios';
 import { Email } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 import { ErrorFunction } from './Error';
+import { useDispatch, useSelector } from 'react-redux';
+import { user } from '../reduxpersist/actions';
 // import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthState/AuthProvider';
 
 const SignIn = () => {
+  // const { loading, dispatch } = useContext(AuthContext);
+  const dispatch1 = useDispatch();
   const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup.string().email().required('This field is required'),
@@ -29,31 +34,36 @@ const SignIn = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const submit = handleSubmit(async (data) => {
+    // dispatch({ type: 'DataRequest' });
     console.log(data);
     const { email, password } = data;
     try {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
-      const res = await axios.post(`${url}/loginverify`, data);
-
-      localStorage.setItem('smartuser', JSON.stringify(res?.data?.data));
-      console.log(res?.data?.data);
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: `User Log In Successfully`,
-        showConfirmButton: false,
-        timer: 2500,
-      }).then(() => {
-        if (res?.data?.data?.data?.isClient) {
-          navigate('/dash/overview');
-        } else if (res?.data?.data?.data?.isDeveloper) {
-          navigate('/dev/main');
-        } else {
-          navigate('/');
-        }
-      });
+      const res = await axios.post(`${mainUrl}/loginverify`, data);
+      if (res) {
+        dispatch1(user(res?.data?.data));
+        // dispatch({ type: 'DataSuccess' });
+        // localStorage.setItem('smartuser', JSON.stringify(res?.data?.data));
+        console.log(res?.data?.data);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: `User Log In Successfully`,
+          showConfirmButton: false,
+          timer: 2500,
+        }).then(() => {
+          if (res?.data?.data?.data?.isClient) {
+            navigate('/dash/overview');
+          } else if (res?.data?.data?.data?.isDeveloper) {
+            navigate('/dev/main');
+          } else {
+            navigate('/');
+          }
+        });
+      }
     } catch (error) {
+      // dispatch({ type: 'DataFailed' });
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -137,6 +147,7 @@ const Login1 = styled.div`
 
 const Reg = styled.button`
   width: 100%;
+  font-family: poppins;
   outline: none;
   border: none;
   background-color: blue;
@@ -167,6 +178,7 @@ const InputHold = styled.div`
   margin-top: 20px;
 
   input {
+    font-family: poppins;
     margin-top: 5px;
     border-radius: 5px;
     padding-left: 20px;

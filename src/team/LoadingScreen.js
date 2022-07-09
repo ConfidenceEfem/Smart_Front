@@ -17,8 +17,9 @@ const Wrapper = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
+  z-index: 4;
 
   position: fixed;
   background-color: rgba(0, 0, 0, 0.8);

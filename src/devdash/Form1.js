@@ -8,11 +8,15 @@ import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import LoadingScreen from '../team/LoadingScreen';
+import { useSelector } from 'react-redux';
+import img from '../dash/images/apply.jpg';
 
 const Form1 = () => {
   const { id } = useParams();
 
   const { currentUser, loading, dispatch } = useContext(AuthContext);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const navigate = useNavigate();
 
@@ -58,9 +62,12 @@ const Form1 = () => {
       formData.append('name', name);
       formData.append('applicationLetter', application);
       const res = await axios.post(
-        `${url}/oneapply/${currentUser?.data?._id}/${id}`,
-        formData,
-        config
+        `${mainUrl}/oneapply/${selector?._id}/${id}`,
+        {
+          email: email,
+          name: name,
+          applicationLetter: application,
+        }
       );
       if (res) {
         dispatch({ type: 'DataSuccess' });
@@ -86,7 +93,8 @@ const Form1 = () => {
 
   return (
     <Container>
-      <LoadingScreen />
+      {loading ? <LoadingScreen /> : null}
+
       <Card>
         <HeadHold>
           <BoldTxt>APPLY NOW</BoldTxt>
@@ -157,6 +165,7 @@ const Btn = styled.button`
 const Textarea = styled.textarea`
   width: 455px;
   height: 130px;
+  font-family: poppins;
   /* background: lightgrey; */
   resize: none;
   border: 0;
@@ -178,6 +187,7 @@ const Sec1 = styled.div`
   input {
     width: 455px;
     height: 35px;
+    font-family: poppins;
     /* padding: 0 10px; */
     border: 0;
     outline: none;
@@ -194,7 +204,9 @@ const Sec1 = styled.div`
   }
 `;
 const Sec = styled.div`
+  font-family: poppins;
   input {
+    font-family: poppins;
     width: 455px;
     height: 35px;
     padding: 0 10px;
@@ -325,7 +337,7 @@ const HeadHold = styled.div`
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  background-image: url('pics.jpg');
+  background-image: url(${img});
   background-size: cover;
   /* background-repeat: no-repeat; */
   @media screen and (max-width: 768px) {

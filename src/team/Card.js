@@ -6,11 +6,14 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../AuthState/AuthProvider';
+import { useSelector } from 'react-redux';
 
 const Card = () => {
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const selector = useSelector((state) => state.persistedReducer.current);
 
   const [jobData, setJobData] = React.useState([]);
 
@@ -19,7 +22,7 @@ const Card = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       await axios
-        .get(`${url}/alljobs`)
+        .get(`${mainUrl}/alljobs`)
         .then((result) => {
           console.log(result?.data?.data);
           setJobData(result?.data?.data);
@@ -45,7 +48,7 @@ const Card = () => {
             <Carder
               key={props._id}
               onClick={() => {
-                if (currentUser?.data?.isDeveloper) {
+                if (selector?.data?.isDeveloper) {
                   navigate(`/dev/applyform/${props._id}`);
                 }
               }}

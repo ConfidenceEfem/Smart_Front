@@ -15,7 +15,7 @@ const VerifyClient = () => {
   const findData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const check = await axios.get(`${url}/user/${id}`);
+    const check = await axios.get(`${mainUrl}/user/${id}`);
     setData(check.data);
     console.log(data);
   };
@@ -23,7 +23,7 @@ const VerifyClient = () => {
   const updateUser = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    await axios.post(`${url}/register/client/${otp}/${id}`);
+    await axios.post(`${mainUrl}/register/client/${otp}/${id}`);
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -42,8 +42,8 @@ const VerifyClient = () => {
       <Header />
       <Wrapper>
         <Text>
-          Congratulations to you {data?.name},
-          <Break>You are now a Smart Developer</Break>
+          Congratulations to you
+          <Break>You are now a Smart Client</Break>
         </Text>
         <Sub>Click Button for Confirmation</Sub>
         <Button

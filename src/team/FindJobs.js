@@ -10,18 +10,21 @@ import { MdOutlineWork } from 'react-icons/md';
 import { BiCurrentLocation } from 'react-icons/bi';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../AuthState/AuthProvider';
+import { useSelector } from 'react-redux';
 
 const FindJobs = () => {
   const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
+  const selector = useSelector((state) => state.persistedReducer.current.data);
+
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${url}/alljobs`);
+    const res = await axios.get(`${mainUrl}/alljobs`);
     setData(res.data.data);
   };
 
@@ -39,7 +42,7 @@ const FindJobs = () => {
             <Carder
               key={props._id}
               onClick={() => {
-                if (currentUser?.data?.isDeveloper) {
+                if (selector?.isDeveloper) {
                   navigate(`/dev/applyform/${props._id}`);
                 }
               }}
@@ -57,10 +60,10 @@ const FindJobs = () => {
                       <Icon1></Icon1>
                       <Text1>{props.skillSet},</Text1>
                     </IconText>
-                    <IconText1>
+                    {/* <IconText1>
                       <Icon2></Icon2>
                       <Text1>Lagos</Text1>
-                    </IconText1>
+                    </IconText1> */}
                     <IconText1>
                       <Icon3></Icon3>
                       <Text1>N{props?.cost}/ week</Text1>

@@ -10,10 +10,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { AuthContext } from '../AuthState/AuthProvider';
 import Header from '../team/Header';
+import { useSelector } from 'react-redux';
 
 const PostJob = () => {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
+  // console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const navigate = useNavigate();
 
@@ -41,7 +44,7 @@ const PostJob = () => {
     try {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
-      const res = await axios.post(`${url}/jobpost/${currentUser?.data?._id}`, {
+      const res = await axios.post(`${mainUrl}/jobpost/${selector?._id}`, {
         jobTitle,
         contactemail: email,
         description: detail,
@@ -197,6 +200,7 @@ const TextArea = styled.textarea`
   padding: 10px;
   border: none;
   outline: none;
+  font-family: poppins;
   background: rgba(0, 0, 255, 0.5);
   margin: 0 5px;
   font-size: 15px;
@@ -216,6 +220,7 @@ const TextArea = styled.textarea`
 const Input = styled.input`
   /* width: 200px; */
   width: 100%;
+  font-family: poppins;
   height: 36px;
   border: none;
   outline: none;
@@ -262,6 +267,7 @@ const InputHolder = styled.div`
 const Form = styled.form`
   display: flex;
   width: 450px;
+  margin: 20px;
   flex-direction: column;
   /* background: red; */
 
@@ -288,7 +294,8 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
+  font-family: poppins;
   flex-direction: column;
   /* align-items: flex-end; */
 

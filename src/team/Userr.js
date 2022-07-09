@@ -18,7 +18,7 @@ const Userr = () => {
   const fetchData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${url}/allusers`);
+    const res = await axios.get(`${mainUrl}/allusers`);
     setData(res.data.data);
   };
 

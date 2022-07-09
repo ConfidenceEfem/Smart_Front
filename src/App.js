@@ -40,7 +40,7 @@ import DevApplyJob from './devdash/DevApplyJob';
 
 const App = () => {
   return (
-    <div style={{ display: 'flex', maxHeight: '100vh', width: '100vw' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', width: '100%' }}>
       <Router>
         <Routes>
           <Route exact path="/" element={<LandingPage />} />

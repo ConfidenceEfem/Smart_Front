@@ -113,6 +113,7 @@ const Container = styled.div`
   min-height: calc(100vh - 90px);
   height: 100%auto;
   justify-content: flex-end;
+  font-family: poppins;
   box-shadow: 1px 1px 1px lightgray;
   @media screen and (max-width: 768px) {
     display: none;

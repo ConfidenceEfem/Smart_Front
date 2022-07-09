@@ -10,10 +10,13 @@ import JobClientProfile from './JobClientProfile';
 import Header from '../team/Header';
 import DevHiringCard from './DevHiringCard';
 import LoadingScreen from '../team/LoadingScreen';
+import { useSelector } from 'react-redux';
 
 const DevHiring = () => {
   const { currentUser, loading, dispatch } = useContext(AuthContext);
   // console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const [data, setData] = React.useState([]);
 
@@ -23,7 +26,7 @@ const DevHiring = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         if (res) {
           dispatch({ type: 'DataSuccess' });
           console.log(res?.data?.data?.hire);
@@ -165,9 +168,10 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   flex-direction: column;
   position: relative;
+  font-family: poppins;
   top: 0;
   /* align-items: flex-end; */
 

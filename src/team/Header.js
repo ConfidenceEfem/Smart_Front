@@ -9,17 +9,22 @@ import img from '../dash/images/avatar.png';
 import { AuthContext } from '../AuthState/AuthProvider';
 import axios from 'axios';
 import { GiCancel } from 'react-icons/gi';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../reduxpersist/actions';
 
 const Header = () => {
   const [change, setChange] = useState(true);
+
+  const dispatch = useDispatch();
   const { currentUser } = useContext(AuthContext);
+  const selector = useSelector((state) => state.persistedReducer.current);
 
   const [jobData, setJobData] = React.useState([]);
 
   const fetchData = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+    const res = await axios.get(`${mainUrl}/user/${selector?.data?._id}`);
     console.log(res);
     setJobData(res.data.data);
   };
@@ -47,10 +52,10 @@ const Header = () => {
             <Nav to="/">Home</Nav>
             <Nav to="/jobs">Find jobs</Nav>
             <Nav to="/talent">Hire Talents</Nav>
-            {currentUser ? (
+            {selector ? (
               <Nav1
                 onClick={() => {
-                  if (currentUser?.data?.isClient) {
+                  if (selector?.data?.isClient) {
                     navigate('/dash/overview');
                   } else {
                     navigate('/dev/main');
@@ -61,13 +66,14 @@ const Header = () => {
               </Nav1>
             ) : null}
 
-            {!currentUser ? <Nav1>Login</Nav1> : null}
+            {!selector ? <Nav1>Login</Nav1> : null}
 
-            {currentUser ? (
+            {selector ? (
               <But1
                 onClick={() => {
-                  localStorage.removeItem('smartuser');
-                  window.location.reload();
+                  dispatch(logout());
+                  // localStorage.removeItem('smartuser');
+                  // window.location.reload();
                   navigate('/');
                 }}
               >
@@ -75,7 +81,7 @@ const Header = () => {
               </But1>
             ) : null}
 
-            {!currentUser ? (
+            {!selector ? (
               <But
                 onClick={() => {
                   navigate('/signup');
@@ -87,7 +93,7 @@ const Header = () => {
           </Navs>
         </Navigation>
         {/* <Navigation> */}
-        {currentUser?.token ? (
+        {selector?.token ? (
           <Btnhold>
             {' '}
             <Name>{jobData?.name}</Name>
@@ -98,7 +104,7 @@ const Header = () => {
             )}
             <DashButton
               onClick={() => {
-                if (currentUser?.data?.isClient) {
+                if (selector?.data?.isClient) {
                   navigate('/dash/overview');
                 } else {
                   navigate('/dev/main');
@@ -109,8 +115,10 @@ const Header = () => {
             </DashButton>
             <Logout
               onClick={() => {
+                dispatch(logout());
                 localStorage.removeItem('smartuser');
-                window.location.reload();
+                // window.location.reload();
+                navigate('/');
               }}
             >
               Logout

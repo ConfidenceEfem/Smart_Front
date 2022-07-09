@@ -21,7 +21,7 @@ const Congratulation = () => {
   const updateUser = async () => {
     const url = 'http://localhost:2023';
     const mainUrl = 'https://smart-2022.herokuapp.com';
-    await axios.post(`${url}/verify/${otp}/${id}`);
+    await axios.post(`${mainUrl}/verify/${otp}/${id}`);
     Swal.fire({
       position: 'center',
       icon: 'success',
@@ -40,7 +40,7 @@ const Congratulation = () => {
       <Header />
       <Wrapper>
         <Text>
-          Congratulations to you {data?.email},
+          Congratulations to you
           <Break>You are now a Smart Developer</Break>
         </Text>
         <Sub>Click Button for Confirmation</Sub>

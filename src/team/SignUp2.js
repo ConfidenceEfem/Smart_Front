@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { IoPersonOutline } from 'react-icons/io5';
 import { VscBriefcase } from 'react-icons/vsc';
@@ -12,8 +12,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Swal from 'sweetalert2';
 import { ErrorFunction } from './Error';
+import { AuthContext } from '../AuthState/AuthProvider';
 
 const SignIn = () => {
+  const { loading, dispatch } = useContext(AuthContext);
+
+  console.log(loading);
+
   const navigate = useNavigate();
   const [active, setActive] = useState('Developer' || '');
 
@@ -41,7 +46,7 @@ const SignIn = () => {
     const mainUrl = 'https://smart-2022.herokuapp.com';
 
     try {
-      const res = await axios.post(`${url}/register`, {
+      const res = await axios.post(`${mainUrl}/register`, {
         email: email,
         password: confirm,
         name,
@@ -71,7 +76,7 @@ const SignIn = () => {
     const mainUrl = 'https://smart-2022.herokuapp.com';
 
     try {
-      const res = await axios.post(`${url}/register/client`, {
+      const res = await axios.post(`${mainUrl}/register/client`, {
         email: email,
         password: confirm,
         name,

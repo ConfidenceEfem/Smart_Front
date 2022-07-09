@@ -19,7 +19,7 @@ const AppliedCard = ({ props }) => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/oneapply/${props}`);
+        const res = await axios.get(`${mainUrl}/oneapply/${props}`);
         console.log(res?.data?.data);
         setData(res?.data?.data);
         // console.log(res?.data?.data?.apply);
@@ -135,6 +135,7 @@ const SecondCard = styled.div`
   width: 93%;
   display: flex;
   margin: 20px 0;
+  font-family: poppins;
   align-items: center;
   background: white;
   /* margin-left: 20px; */

@@ -22,7 +22,7 @@ const AllAppliedJob = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/clientonejob/${id}`);
+        const res = await axios.get(`${mainUrl}/clientonejob/${id}`);
         // console.log(res?.data?.data.jobs);
         setData(res?.data?.data?.apply);
         // console.log(res?.data?.data?.apply);
@@ -154,7 +154,9 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
+  font-family: poppins;
+
   flex-direction: column;
   /* align-items: flex-end; */
 

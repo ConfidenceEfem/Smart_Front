@@ -8,19 +8,43 @@ import { AiFillCamera } from 'react-icons/ai';
 import { AuthContext } from '../AuthState/AuthProvider';
 import { useNavigate } from 'react-router';
 import Header from '../team/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { user } from '../reduxpersist/actions';
+import { ErrorFunction } from '../team/Error';
 
 const DashEditProfile = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, loading, dispatch } = useContext(AuthContext);
+
+  const selector = useSelector((state) => state.persistedReducer.current);
+
+  const dispatchEdit = useDispatch();
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const url = 'http://localhost:2023';
+      const mainUrl = 'https://smart-2022.herokuapp.com';
+      try {
+        const res = await axios.get(`${mainUrl}/user/${selector?.data?._id}`);
+        if (res) {
+          console.log(res?.data?.data);
+          setData(res?.data?.data);
+        }
+      } catch (error) {}
+    };
+    fetchData();
+  }, []);
 
   const navigate = useNavigate();
-  const [name, setName] = React.useState(currentUser?.data?.name || '');
-  const [image, setImage] = React.useState(currentUser?.data?.image || '');
+  const [name, setName] = React.useState('');
+  const [image, setImage] = React.useState('');
   const [imageLink, setImageLink] = React.useState('');
-  const [status, setStatus] = React.useState(currentUser?.data?.status || '');
+  const [status, setStatus] = React.useState('');
   const [experience, setExperience] = React.useState(
     currentUser?.data?.experience || ''
   );
-  const [bio, setBio] = React.useState(currentUser?.data?.bio || '');
+  const [bio, setBio] = React.useState('');
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -50,11 +74,12 @@ const DashEditProfile = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
 
-      const res = await axios.put(
-        `${url}/user/${currentUser?.data?._id}`,
-        formData,
-        config
-      );
+      const res = await axios.put(`${mainUrl}/user/${selector?.data?._id}`, {
+        name: name,
+        status,
+        experience,
+        bio,
+      });
       if (res) {
         Swal.fire({
           icon: 'success',
@@ -66,15 +91,16 @@ const DashEditProfile = () => {
         });
       }
       console.log(res?.data?.data);
-      localStorage.setItem(
-        'smartuser',
-        JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
-      );
+      dispatchEdit(user({ data: res?.data?.data, token: selector?.token }));
+      // localStorage.setItem(
+      //   'smartuser',
+      //   JSON.stringify({ token: currentUser?.token, data: res?.data?.data })
+      // );
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Failed to edit profile',
-        text: error,
+        text: `${ErrorFunction(error)}`,
         timer: 2500,
         showConfirmButton: true,
       });
@@ -90,7 +116,7 @@ const DashEditProfile = () => {
           <DashWrapper>
             <Form>
               <Title>Edit Profile</Title>
-              {imageLink === '' ? (
+              {/* {imageLink === '' ? (
                 <Circle htmlFor="pix">
                   <AiFillCamera />
                 </Circle>
@@ -103,12 +129,12 @@ const DashEditProfile = () => {
                 style={{ display: 'none' }}
                 id="pix"
                 onChange={uploadImage}
-              />
+              /> */}
               <InputHolder>
                 <Label>First Name</Label>
                 <Input
                   placeholder="John "
-                  value={name}
+                  defaultValue={data?.name}
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -119,7 +145,7 @@ const DashEditProfile = () => {
                 <Label>Status</Label>
                 <Input
                   placeholder="Status"
-                  value={status}
+                  defaultValue={data?.status}
                   onChange={(e) => {
                     setStatus(e.target.value);
                   }}
@@ -129,7 +155,7 @@ const DashEditProfile = () => {
                 <Label>Experience</Label>
                 <Input
                   placeholder="2 years"
-                  value={experience}
+                  defaultValue={data?.experience}
                   onChange={(e) => {
                     setExperience(e.target.value);
                   }}
@@ -139,7 +165,7 @@ const DashEditProfile = () => {
                 <Label>Bio</Label>
                 <TextArea
                   placeholder="Short bio"
-                  value={bio}
+                  defaultValue={data?.bio}
                   onChange={(e) => {
                     setBio(e.target.value);
                   }}
@@ -168,12 +194,13 @@ const TextArea = styled.textarea`
   font-weight: 500;
   width: 95%;
   height: 50px;
-  border: none;
+  font-family: poppins;
+  border: 1px solid black;
   outline: none;
-  background: rgb(0, 0, 255, 0.7);
-  color: white;
+  /* background: rgb(0, 0, 255, 0.7); */
+  color: black;
   ::placeholder {
-    color: white;
+    color: black;
   }
   :focus {
     border: 2px solid blue;
@@ -228,13 +255,14 @@ const Input = styled.input`
   padding: 10px;
   font-size: 14px;
   font-weight: 500;
+  font-family: poppins;
   width: 95%;
-  border: none;
+  border: 1px solid black;
   outline: none;
-  background: rgb(0, 0, 255, 0.7);
-  color: white;
+  /* background: rgb(0, 0, 255, 0.7); */
+  color: black;
   ::placeholder {
-    color: white;
+    color: black;
   }
   :focus {
     border: 2px solid blue;
@@ -289,6 +317,7 @@ const NavAndPageHolder = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100vw;
+  font-family: poppins;
   flex-direction: column;
   /* align-items: flex-end; */
 

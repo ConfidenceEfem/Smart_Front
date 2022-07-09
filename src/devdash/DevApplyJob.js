@@ -162,8 +162,9 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  width: 100%;
   flex-direction: column;
+  font-family: poppins;
   /* align-items: flex-end; */
 
   /* min-height: 100vh; */

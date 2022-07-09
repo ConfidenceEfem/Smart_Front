@@ -13,12 +13,15 @@ import ClientDetailComp from '../team/ClientDetail';
 import { AuthContext } from '../AuthState/AuthProvider';
 import Swal from 'sweetalert2';
 import Header from '../team/Header';
+import { useSelector } from 'react-redux';
 import HiredCard from './HiredCard';
 
 const MainDashScreen = () => {
   // console.log(user);
   const { currentUser, see } = useContext(AuthContext);
   console.log(currentUser);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const [data, setData] = React.useState([]);
   const [mainData, setMainData] = React.useState([]);
@@ -28,7 +31,7 @@ const MainDashScreen = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         console.log(res?.data?.data);
         setData(res?.data?.data);
       } catch (error) {
@@ -48,16 +51,16 @@ const MainDashScreen = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         console.log(res?.data?.data?.hiredDevelopers);
         setMainData(res?.data?.data?.hiredDevelopers);
       } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Unable to get Data',
-          timer: 2500,
-          showConfirmButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Unable to get Data',
+        //   timer: 2500,
+        //   showConfirmButton: false,
+        // });
       }
     };
     fetchData();
@@ -344,7 +347,8 @@ const NavAndPageHolder = styled.div`
 `;
 const Container = styled.div`
   display: flex;
-  width: 100vw;
+  font-family: poppins;
+  width: 100%;
   flex-direction: column;
   /* align-items: flex-end; */
 

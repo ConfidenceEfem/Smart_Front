@@ -7,15 +7,19 @@ import {
 } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
+import img from '../dash/images/avatar.png';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../AuthState/AuthProvider';
 
 import Header from './Header';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
   const { id } = useParams();
 
-  const { currentUser } = useContext(AuthContext);
+  // const { currentUser } = useContext(AuthContext);
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const navigate = useNavigate();
 
@@ -27,7 +31,7 @@ const Profile = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${id}`);
+        const res = await axios.get(`${mainUrl}/user/${id}`);
         console.log(res?.data?.data);
         setData(res?.data?.data);
       } catch (error) {
@@ -49,9 +53,15 @@ const Profile = () => {
         <Wrap1>
           <Hol>
             <Hold>
-              <Card1>
-                <img src={data?.image} />
-              </Card1>
+              {data?.image === '' ? (
+                <Card1>
+                  <img src={img} />
+                </Card1>
+              ) : (
+                <Card1>
+                  <img src={data?.image} />
+                </Card1>
+              )}
               <Card2>
                 <Name>{data?.name}</Name>
                 <Stack>{data?.stack}</Stack>
@@ -81,10 +91,10 @@ const Profile = () => {
                 <ButHold>
                   <But
                     onClick={() => {
-                      if (currentUser?.data?.isDeveloper) {
+                      if (selector?.isDeveloper) {
                         navigate(`/myprofile/${id}`);
                         // console.log('bad');
-                      } else if (currentUser?.data?.isClient) {
+                      } else if (selector?.isClient) {
                         navigate(`/dash/form/${data?._id}`);
                         // console.log('good');
                       } else {

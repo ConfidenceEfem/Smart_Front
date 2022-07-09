@@ -12,10 +12,13 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../team/Header';
+import { useSelector } from 'react-redux';
 
 const AllPostedJob = () => {
   const { currentUser } = useContext(AuthContext);
   const { id } = useParams();
+
+  const selector = useSelector((state) => state.persistedReducer.current.data);
 
   const navigate = useNavigate();
 
@@ -26,7 +29,7 @@ const AllPostedJob = () => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${currentUser?.data?._id}`);
+        const res = await axios.get(`${mainUrl}/user/${selector?._id}`);
         // console.log(res?.data?.data.jobs);
         setData(res?.data?.data.jobs);
       } catch (error) {

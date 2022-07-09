@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
+import img from '../dash/images/avatar.png';
 
 const JobDevProfile = ({ dev }) => {
   const [data, setData] = React.useState([]);
@@ -11,7 +12,7 @@ const JobDevProfile = ({ dev }) => {
       const url = 'http://localhost:2023';
       const mainUrl = 'https://smart-2022.herokuapp.com';
       try {
-        const res = await axios.get(`${url}/user/${dev}`);
+        const res = await axios.get(`${mainUrl}/user/${dev}`);
         console.log(res?.data?.data);
         setData(res?.data?.data);
       } catch (error) {
@@ -24,7 +25,7 @@ const JobDevProfile = ({ dev }) => {
   return (
     <AvatarAndName>
       {data?.image === '' ? (
-        <Circle>CE</Circle>
+        <Avatar src={img} alt="image" />
       ) : (
         <Avatar src={data?.image} alt="image" />
       )}
