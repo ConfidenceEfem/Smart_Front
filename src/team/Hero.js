@@ -72,6 +72,16 @@ const Righthold = styled.div`
     height: 100%;
     object-fit: contain;
   }
+  @media screen and (max-width: 1350px) {
+    width: 550px;
+  }
+  @media screen and (max-width: 1235px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 900px) {
+    width: 350px;
+    margin-top: 20px;
+  }
 `;
 
 // const Stkhold = styled.div`
@@ -174,7 +184,7 @@ const Wrapper = styled.div`
   align-items: center;
   /* background: red; */
   /* flex-direction: row; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     flex-direction: row;
   }
 `;
@@ -186,9 +196,11 @@ const Left = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     width: 100%;
   }
+ 
+
 `;
 const Right = styled.div`
   /* width: 500px; */
@@ -196,9 +208,10 @@ const Right = styled.div`
   /* width: 40%; */
   /* background-color: blue; */
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: none;
   }
+ 
 `;
 
 const Text = styled.div`
@@ -210,7 +223,7 @@ const Text = styled.div`
   align-items: flex-start;
   flex-direction: column;
   /* margin-top: 10px; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,7 +236,7 @@ const BigText = styled.div`
   font-weight: 700;
   line-height: 1.2;
   color: white;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     font-size: 50px;
     text-align: center;
   }
@@ -245,7 +258,7 @@ const SmallText = styled.div`
   color: white;
   flex-direction: column;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     font-size: 17px;
     text-align: center;
   }
@@ -282,7 +295,7 @@ const Btn1 = styled.button`
   font-size: 17px;
   font-family: poppins;
   cursor: pointer;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     width: 450px;
   }
 `;

@@ -75,12 +75,16 @@ const Left = styled.div`
   @media screen and (max-width: 1024px) {
     width: 90%;
   }
+  @media screen and (max-width: 600px) {
+    height: 420px;
+   
+  }
   @media screen and (max-width: 430px) {
-    height: 450px;
+    // height: 420px;
     width: 95%;
   }
   @media screen and (max-width: 350px) {
-    height: 400px;
+    height: 300px;
   }
 `;
 const Btn = styled(Link)`
@@ -183,7 +187,6 @@ const Right = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     justify-content: flex-start;
-    /* height: 90vh; */
   }
   @media screen and (max-width: 1024px) {
     display: flex;
@@ -196,7 +199,7 @@ const Right = styled.div`
 `;
 const Wrapper = styled.div`
   width: 90%;
-  height: auto;
+  // height: auto;
   display: flex;
   /* background: lightsalmon; */
   justify-content: space-between;
@@ -212,11 +215,10 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 100%;
   height: auto;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: brown; */
+  // background-color: brown; 
   @media screen and (max-width: 768px) {
     height: auto;
   }

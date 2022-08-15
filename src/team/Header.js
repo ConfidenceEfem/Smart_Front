@@ -259,7 +259,7 @@ const Navs = styled.div`
   margin-left: 20px;
   /* background: red; */
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     font-family: poppins;
     display: flex;
     flex-direction: column;
@@ -289,7 +289,7 @@ const Nav = styled(Link)`
   cursor: pointer;
   font-family: poppins;
 
-  @media screen and (max-width: 788px) {
+  @media screen and (max-width: 850px) {
     color: white;
   }
 `;
@@ -297,7 +297,7 @@ const Nav = styled(Link)`
 const Nav1 = styled.div`
   display: none;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     font-size: 16px;
     display: flex;
     font-family: poppins;
@@ -321,7 +321,7 @@ const Btnhold = styled.div`
   /* background: red; */
   align-items: center;
   /* background: blue; */
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: none;
   }
 `;
@@ -370,7 +370,7 @@ const Btn2 = styled(NavLink)`
 const But = styled.div`
   display: none;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     width: 150px;
     display: flex;
     justify-content: center;
@@ -396,7 +396,7 @@ const But = styled.div`
 const But1 = styled.div`
   display: none;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     width: 150px;
     display: flex;
     justify-content: center;
@@ -422,13 +422,13 @@ const But1 = styled.div`
 
 const Icon = styled.div`
   display: none;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: block;
   }
 `;
 const Icon2 = styled.div`
   display: none;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 850px) {
     display: block;
     margin-right: 7px;
   }
